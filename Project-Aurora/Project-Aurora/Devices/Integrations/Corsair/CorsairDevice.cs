@@ -226,8 +226,12 @@ namespace Aurora.Devices.Corsair
                             if (!UpdateDevice(mouse, e, forced))
                                 updateResult = false;
                             break;
+                        case MousepadDeviceLayout mousepad:
+                            if (!UpdateDevice(mousepad, e, forced))
+                                updateResult = false;
+                            break;
 
-                        // TODO: Mousepad
+                            // TODO: Headset + Stand
                     }
                 }
             }
@@ -318,108 +322,26 @@ namespace Aurora.Devices.Corsair
             }
         }
 
-        // TODO: Mousepad
-/*
-        public bool UpdateDevice(Dictionary<DeviceKeys, Color> keyColors, DoWorkEventArgs e, bool forced = false)
+        private bool UpdateDevice(MousepadDeviceLayout mousepadDevice, DoWorkEventArgs e, bool forced)
         {
             if (e.Cancel) return false;
-            CorsairLedId keyindex = CorsairLedId.Invalid;
 
             try
             {
                 if (e.Cancel) return false;
-                foreach (KeyValuePair<DeviceKeys, Color> key in keyColors)
+                foreach (KeyValuePair<LEDINT, Color> key in mousepadDevice.DeviceColours.deviceColours)
                 {
                     if (e.Cancel) return false;
-                    CorsairLedId localKey = ToCorsair(key.Key);
 
-                    if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.Peripheral_Logo ||
-                        localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.Peripheral)
+                    if (MousepadLights.Mousepad_Lights <= (MousepadLights)key.Key && (MousepadLights)key.Key <= MousepadLights.Mousepad_Lights + 15)
                     {
-                        SendColorToMouse(CorsairLedId.B1, (Color)(key.Value));
-                        SendColorToPeripheral((Color)(key.Value));
-                       
+                        CorsairLedId localLight = ToCorsair((MousepadLights)key.Key);
+                        if (mousemat[localLight] != null && localLight != CorsairLedId.Invalid)
+                            mousemat[localLight].Color = key.Value;
                     }
-                    else if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.Peripheral_FrontLight)
-                    {
-                        SendColorToMouse(CorsairLedId.B2, (Color)(key.Value));
-                    }
-                    else if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.Peripheral_ScrollWheel)
-                    {
-                        SendColorToMouse(CorsairLedId.B3, (Color)(key.Value));
-                        SendColorToMouse(CorsairLedId.B5, (Color)(key.Value));
-                        SendColorToMouse(CorsairLedId.B6, (Color)(key.Value));
-                    }
-                    else if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.MOUSEPADLIGHT1)
-                    {
-                        SendColorToMousepad(CorsairLedId.Zone1, (Color)(key.Value));
-                    }
-                    else if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.MOUSEPADLIGHT2)
-                    {
-                        SendColorToMousepad(CorsairLedId.Zone2, (Color)(key.Value));
-                    }
-                    else if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.MOUSEPADLIGHT3)
-                    {
-                        SendColorToMousepad(CorsairLedId.Zone3, (Color)(key.Value));
-                    }
-                    else if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.MOUSEPADLIGHT4)
-                    {
-                        SendColorToMousepad(CorsairLedId.Zone4, (Color)(key.Value));
-                    }
-                    else if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.MOUSEPADLIGHT5)
-                    {
-                        SendColorToMousepad(CorsairLedId.Zone5, (Color)(key.Value));
-                    }
-                    else if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.MOUSEPADLIGHT6)
-                    {
-                        SendColorToMousepad(CorsairLedId.Zone6, (Color)(key.Value));
-                    }
-                    else if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.MOUSEPADLIGHT7)
-                    {
-                        SendColorToMousepad(CorsairLedId.Zone7, (Color)(key.Value));
-                    }
-                    else if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.MOUSEPADLIGHT8)
-                    {
-                        SendColorToMousepad(CorsairLedId.Zone8, (Color)(key.Value));
-                    }
-                    else if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.MOUSEPADLIGHT9)
-                    {
-                        SendColorToMousepad(CorsairLedId.Zone9, (Color)(key.Value));
-                    }
-                    else if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.MOUSEPADLIGHT10)
-                    {
-                        SendColorToMousepad(CorsairLedId.Zone10, (Color)(key.Value));
-                    }
-                    else if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.MOUSEPADLIGHT11)
-                    {
-                        SendColorToMousepad(CorsairLedId.Zone11, (Color)(key.Value));
-                    }
-                    else if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.MOUSEPADLIGHT12)
-                    {
-                        SendColorToMousepad(CorsairLedId.Zone12, (Color)(key.Value));
-                    }
-                    else if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.MOUSEPADLIGHT13)
-                    {
-                        SendColorToMousepad(CorsairLedId.Zone13, (Color)(key.Value));
-                    }
-                    else if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.MOUSEPADLIGHT14)
-                    {
-                        SendColorToMousepad(CorsairLedId.Zone14, (Color)(key.Value));
-                    }
-                    else if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.MOUSEPADLIGHT15)
-                    {
-                        SendColorToMousepad(CorsairLedId.Zone15, (Color)(key.Value));
-                    }
-                    else if (localKey != CorsairLedId.Invalid)
-                    {
-                        SetOneKey(localKey, (Color)(key.Value));
-                    }
-
-                    keyindex = localKey;
                 }
-
                 if (e.Cancel) return false;
-                SendColorsToKeyboard(forced);
+                mousemat.Update(true);
                 return true;
             }
             catch (Exception exc)
@@ -430,35 +352,147 @@ namespace Aurora.Devices.Corsair
             }
         }
 
-        public bool UpdateDevice(DeviceColorComposition colorComposition, DoWorkEventArgs e, bool forced = false)
-        {
-            watch.Restart();
+        // TODO: Mousepad
+        /*
+                public bool UpdateDevice(Dictionary<DeviceKeys, Color> keyColors, DoWorkEventArgs e, bool forced = false)
+                {
+                    if (e.Cancel) return false;
+                    CorsairLedId keyindex = CorsairLedId.Invalid;
 
-            bool update_result = UpdateDevice(colorComposition.keyColors, e, forced);
+                    try
+                    {
+                        if (e.Cancel) return false;
+                        foreach (KeyValuePair<DeviceKeys, Color> key in keyColors)
+                        {
+                            if (e.Cancel) return false;
+                            CorsairLedId localKey = ToCorsair(key.Key);
 
-            watch.Stop();
-            lastUpdateTime = watch.ElapsedMilliseconds;
+                            if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.Peripheral_Logo ||
+                                localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.Peripheral)
+                            {
+                                SendColorToMouse(CorsairLedId.B1, (Color)(key.Value));
+                                SendColorToPeripheral((Color)(key.Value));
 
-            return update_result;
-        }
-        
-        private void SendColorsToKeyboard(bool forced = false)
-        {
-            if (keyboard != null && !Global.Configuration.devices_disable_keyboard)
-            {
-                keyboard.Update(true);
-                keyboard_updated = true;
-            }
-        }
+                            }
+                            else if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.Peripheral_FrontLight)
+                            {
+                                SendColorToMouse(CorsairLedId.B2, (Color)(key.Value));
+                            }
+                            else if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.Peripheral_ScrollWheel)
+                            {
+                                SendColorToMouse(CorsairLedId.B3, (Color)(key.Value));
+                                SendColorToMouse(CorsairLedId.B5, (Color)(key.Value));
+                                SendColorToMouse(CorsairLedId.B6, (Color)(key.Value));
+                            }
+                            else if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.MOUSEPADLIGHT1)
+                            {
+                                SendColorToMousepad(CorsairLedId.Zone1, (Color)(key.Value));
+                            }
+                            else if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.MOUSEPADLIGHT2)
+                            {
+                                SendColorToMousepad(CorsairLedId.Zone2, (Color)(key.Value));
+                            }
+                            else if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.MOUSEPADLIGHT3)
+                            {
+                                SendColorToMousepad(CorsairLedId.Zone3, (Color)(key.Value));
+                            }
+                            else if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.MOUSEPADLIGHT4)
+                            {
+                                SendColorToMousepad(CorsairLedId.Zone4, (Color)(key.Value));
+                            }
+                            else if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.MOUSEPADLIGHT5)
+                            {
+                                SendColorToMousepad(CorsairLedId.Zone5, (Color)(key.Value));
+                            }
+                            else if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.MOUSEPADLIGHT6)
+                            {
+                                SendColorToMousepad(CorsairLedId.Zone6, (Color)(key.Value));
+                            }
+                            else if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.MOUSEPADLIGHT7)
+                            {
+                                SendColorToMousepad(CorsairLedId.Zone7, (Color)(key.Value));
+                            }
+                            else if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.MOUSEPADLIGHT8)
+                            {
+                                SendColorToMousepad(CorsairLedId.Zone8, (Color)(key.Value));
+                            }
+                            else if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.MOUSEPADLIGHT9)
+                            {
+                                SendColorToMousepad(CorsairLedId.Zone9, (Color)(key.Value));
+                            }
+                            else if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.MOUSEPADLIGHT10)
+                            {
+                                SendColorToMousepad(CorsairLedId.Zone10, (Color)(key.Value));
+                            }
+                            else if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.MOUSEPADLIGHT11)
+                            {
+                                SendColorToMousepad(CorsairLedId.Zone11, (Color)(key.Value));
+                            }
+                            else if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.MOUSEPADLIGHT12)
+                            {
+                                SendColorToMousepad(CorsairLedId.Zone12, (Color)(key.Value));
+                            }
+                            else if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.MOUSEPADLIGHT13)
+                            {
+                                SendColorToMousepad(CorsairLedId.Zone13, (Color)(key.Value));
+                            }
+                            else if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.MOUSEPADLIGHT14)
+                            {
+                                SendColorToMousepad(CorsairLedId.Zone14, (Color)(key.Value));
+                            }
+                            else if (localKey == CorsairLedId.Invalid && key.Key == DeviceKeys.MOUSEPADLIGHT15)
+                            {
+                                SendColorToMousepad(CorsairLedId.Zone15, (Color)(key.Value));
+                            }
+                            else if (localKey != CorsairLedId.Invalid)
+                            {
+                                SetOneKey(localKey, (Color)(key.Value));
+                            }
 
-        private void SetOneKey(CorsairLedId localKey, Color color)
-        {
-            //Apply and strip Alpha
-            color = Color.FromArgb(255, Utils.ColorUtils.MultiplyColorByScalar(color, color.A / 255.0D));
-            if (keyboard != null && keyboard[localKey] != null)
-                keyboard[localKey].Color = color;
-        }
-        */
+                            keyindex = localKey;
+                        }
+
+                        if (e.Cancel) return false;
+                        SendColorsToKeyboard(forced);
+                        return true;
+                    }
+                    catch (Exception exc)
+                    {
+                        Global.logger.Error("Corsair device, error when updating device. Error: " + exc);
+                        Console.WriteLine(exc);
+                        return false;
+                    }
+                }
+
+                public bool UpdateDevice(DeviceColorComposition colorComposition, DoWorkEventArgs e, bool forced = false)
+                {
+                    watch.Restart();
+
+                    bool update_result = UpdateDevice(colorComposition.keyColors, e, forced);
+
+                    watch.Stop();
+                    lastUpdateTime = watch.ElapsedMilliseconds;
+
+                    return update_result;
+                }
+
+                private void SendColorsToKeyboard(bool forced = false)
+                {
+                    if (keyboard != null && !Global.Configuration.devices_disable_keyboard)
+                    {
+                        keyboard.Update(true);
+                        keyboard_updated = true;
+                    }
+                }
+
+                private void SetOneKey(CorsairLedId localKey, Color color)
+                {
+                    //Apply and strip Alpha
+                    color = Color.FromArgb(255, Utils.ColorUtils.MultiplyColorByScalar(color, color.A / 255.0D));
+                    if (keyboard != null && keyboard[localKey] != null)
+                        keyboard[localKey].Color = color;
+                }
+                */
         /*private void SendColorToMousepad(CorsairLedId zoneKey, Color color)
         {
             if (Global.Configuration.devices_disable_mouse)
@@ -934,6 +968,47 @@ namespace Aurora.Devices.Corsair
                 default:
                     return CorsairLedId.Invalid;
             }
+        }
+
+        private CorsairLedId ToCorsair(MousepadLights light)
+        {
+            switch (light)
+            {
+                case (MousepadLights.Mousepad_Lights):
+                    return CorsairLedId.Zone1;
+                case (MousepadLights.Mousepad_Lights + 1):
+                    return CorsairLedId.Zone2;
+                case (MousepadLights.Mousepad_Lights + 2):
+                    return CorsairLedId.Zone3;
+                case (MousepadLights.Mousepad_Lights + 3):
+                    return CorsairLedId.Zone4;
+                case (MousepadLights.Mousepad_Lights + 4):
+                    return CorsairLedId.Zone5;
+                case (MousepadLights.Mousepad_Lights + 5):
+                    return CorsairLedId.Zone6;
+                case (MousepadLights.Mousepad_Lights + 6):
+                    return CorsairLedId.Zone7;
+                case (MousepadLights.Mousepad_Lights + 7):
+                    return CorsairLedId.Zone8;
+                case (MousepadLights.Mousepad_Lights + 8):
+                    return CorsairLedId.Zone9;
+                case (MousepadLights.Mousepad_Lights + 9):
+                    return CorsairLedId.Zone10;
+                case (MousepadLights.Mousepad_Lights + 10):
+                    return CorsairLedId.Zone11;
+                case (MousepadLights.Mousepad_Lights + 11):
+                    return CorsairLedId.Zone12;
+                case (MousepadLights.Mousepad_Lights + 12):
+                    return CorsairLedId.Zone13;
+                case (MousepadLights.Mousepad_Lights + 13):
+                    return CorsairLedId.Zone14;
+                case (MousepadLights.Mousepad_Lights + 14):
+                    return CorsairLedId.Zone15;
+                default:
+                    return CorsairLedId.Invalid;
+                   
+            }
+
         }
     }
 }

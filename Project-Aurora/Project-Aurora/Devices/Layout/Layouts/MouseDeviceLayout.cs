@@ -80,8 +80,8 @@ namespace Aurora.Devices.Layout.Layouts
 
             [Description("Generic Peripheral")]
             Generic_Peripheral = 1,
-            [Description("Razer/Corsair Mousepad + Mouse")]
-            Generic_Mousepad = 2,
+            //[Description("Razer/Corsair Mousepad + Mouse")]
+            //Generic_Mousepad = 2,
 
             //Logitech range is 100-199
             [Description("Logitech - G900")]
@@ -151,9 +151,9 @@ namespace Aurora.Devices.Layout.Layouts
                 case PreferredMouse.Generic_Peripheral:
                     mouse_feature_path = Path.Combine(layoutsPath, "Extra Features", "generic_peripheral.json");
                     break;
-                case PreferredMouse.Generic_Mousepad:
-                    mouse_feature_path = Path.Combine(layoutsPath, "Extra Features", "generic_mousepad.json");
-                    break;
+            //    case PreferredMouse.Generic_Mousepad:
+            //        mouse_feature_path = Path.Combine(layoutsPath, "Extra Features", "generic_mousepad.json");
+            //        break;
                 case PreferredMouse.Logitech_G900:
                     mouse_feature_path = Path.Combine(layoutsPath, "Extra Features", "logitech_g900_features.json");
                     break;

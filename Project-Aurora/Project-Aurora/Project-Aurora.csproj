@@ -412,6 +412,7 @@
     <Compile Include="Devices\Layout\GlobalDeviceLayout.cs" />
     <Compile Include="Devices\Layout\Layouts\KeyboardDeviceLayout.cs" />
     <Compile Include="Devices\Layout\Layouts\MouseDeviceLayout.cs" />
+    <Compile Include="Devices\Layout\Layouts\MousepadDeviceLayout.cs" />
     <Compile Include="Devices\Layout\LayoutUtils.cs" />
     <Compile Include="Devices\Layout\VirtualGroup.cs" />
     <None Include="Devices\Integrations\UnifiedHID\UnifiedHID.cs" />
