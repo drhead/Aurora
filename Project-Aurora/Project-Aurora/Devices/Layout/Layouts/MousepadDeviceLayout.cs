@@ -58,7 +58,7 @@ namespace Aurora.Devices.Layout.Layouts
         }
 
         [JsonIgnore]
-        public new static readonly byte DeviceTypeID = 1;
+        public new static readonly byte DeviceTypeID = 2;
 
         [JsonIgnore]
         public override byte GetDeviceTypeID { get { return DeviceTypeID; } }

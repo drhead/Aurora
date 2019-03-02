@@ -10,6 +10,7 @@ using Corale.Colore.Razer.Mouse;
 using KeyboardCustom = Corale.Colore.Razer.Keyboard.Effects.Custom;
 using MouseCustom = Corale.Colore.Razer.Mouse.Effects.CustomGrid;
 using MousepadCustom = Corale.Colore.Razer.Mousepad.Effects.Custom;
+using KeypadCustom = Corale.Colore.Razer.Keypad.Effects.Custom;
 using Aurora.Settings;
 using Aurora.Devices.Layout;
 using Aurora.Devices.Layout.Layouts;
@@ -25,6 +26,7 @@ namespace Aurora.Devices.Razer
         private KeyboardCustom grid = KeyboardCustom.Create();
         private MouseCustom MouseGrid = MouseCustom.Create();
         private MousepadCustom MousepadGrid = MousepadCustom.Create();
+        private KeypadCustom KeypadGrid = KeypadCustom.Create();
         //private bool bladeLayout = true;
 
         IKeyboard keyboard = null;
@@ -161,7 +163,7 @@ namespace Aurora.Devices.Razer
 
         public void Reset()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Shutdown()
@@ -207,6 +209,10 @@ namespace Aurora.Devices.Razer
                             break;
                         case MousepadDeviceLayout mousepad:
                             if (!UpdateDevice(mousepad, e, forced))
+                                updateResult = false;
+                            break;
+                        case KeypadDeviceLayout keypad:
+                            if (!UpdateDevice(keypad, e, forced))
                                 updateResult = false;
                             break;
                     }
@@ -653,5 +659,31 @@ namespace Aurora.Devices.Razer
 
             }
         }
+
+        private bool UpdateDevice(KeypadDeviceLayout device, DoWorkEventArgs e, bool forced)
+        {
+            try
+            {
+                foreach (KeyValuePair<LEDINT, System.Drawing.Color> key in device.DeviceColours.deviceColours)
+                {
+                    if (e.Cancel) return false;
+                    int localLed = (KeypadLights)key.Key - KeypadLights.Keypad_Light01;
+                    if (localLed >= 0 && localLed < 20)
+                        KeypadGrid[localLed] = new Corale.Colore.Core.Color(key.Value.R, key.Value.G, key.Value.B);
+                }
+                if (e.Cancel) return false;
+
+               keypad.SetCustom(KeypadGrid);
+
+                return true;
+            }
+            catch (Exception exc)
+            {
+                Global.logger.Error("Razer device, error when updating device. Error: " + exc);
+                Console.WriteLine(exc);
+                return false;
+            }
+        }
+
     }
 }
