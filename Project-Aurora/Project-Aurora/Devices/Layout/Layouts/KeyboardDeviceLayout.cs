@@ -1252,6 +1252,8 @@ namespace Aurora.Devices.Layout.Layouts
             Razer_Blackwidow_TE = 302,
             [Description("Razer - Blade")]
             Razer_Blade = 303,
+            [Description("Razer - Blackwidow v2")]
+            Razer_Blackwidow_v2 = 304,
 
             //Clevo range is 400-499
 
@@ -1523,6 +1525,8 @@ namespace Aurora.Devices.Layout.Layouts
                     layoutConfigPath = Path.Combine(layoutsPath, "corsair_k68.json");
                 else if (Style == PreferredKeyboard.Razer_Blackwidow)
                     layoutConfigPath = Path.Combine(layoutsPath, "razer_blackwidow.json");
+                else if (Style == PreferredKeyboard.Razer_Blackwidow_v2)
+                    layoutConfigPath = Path.Combine(layoutsPath, "razer_blackwidow_v2.json");
                 else if (Style == PreferredKeyboard.Razer_Blackwidow_X)
                     layoutConfigPath = Path.Combine(layoutsPath, "razer_blackwidow_x.json");
                 else if (Style == PreferredKeyboard.Razer_Blackwidow_TE)

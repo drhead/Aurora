@@ -22,9 +22,6 @@ namespace Aurora.Devices.Razer
         private String devicename = "Razer";
         private bool isInitialized = false;
 
-        private bool keyboard_updated = false;
-        private bool mouse_updated = false;
-        private bool peripheral_updated = false;
         private KeyboardCustom grid = KeyboardCustom.Create();
         private MouseCustom MouseGrid = MouseCustom.Create();
         private MousepadCustom MousepadGrid = MousepadCustom.Create();
@@ -164,11 +161,7 @@ namespace Aurora.Devices.Razer
 
         public void Reset()
         {
-            if (this.IsInitialized() && (keyboard_updated || peripheral_updated))
-            {
-                keyboard_updated = false;
-                peripheral_updated = false;
-            }
+            throw new NotImplementedException();
         }
 
         public void Shutdown()
@@ -254,7 +247,6 @@ namespace Aurora.Devices.Razer
                 if (e.Cancel) return false;
 
                 keyboard.SetCustom(grid);
-                keyboard_updated = true;
 
                 return true;
             }
@@ -531,7 +523,6 @@ namespace Aurora.Devices.Razer
                 if (e.Cancel) return false;
 
                 mouse.SetGrid(MouseGrid);
-                mouse_updated = true;
 
                 return true;
             }

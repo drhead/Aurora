@@ -412,6 +412,7 @@
     <Compile Include="Devices\Layout\GlobalDeviceLayout.cs" />
     <Compile Include="Devices\Layout\Layouts\KeyboardDeviceLayout.cs" />
     <Compile Include="Devices\Layout\Layouts\MouseDeviceLayout.cs" />
+    <Compile Include="Devices\Layout\Layouts\KeypadDeviceLayout.cs" />
     <Compile Include="Devices\Layout\Layouts\MousepadDeviceLayout.cs" />
     <Compile Include="Devices\Layout\LayoutUtils.cs" />
     <Compile Include="Devices\Layout\VirtualGroup.cs" />
@@ -970,6 +971,7 @@
     <None Include="kb_layouts\Extra Features\generic_laptop_left_bottom_features.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="kb_layouts\Extra Features\razer_blackwidow_v2_features.json" />
     <None Include="kb_layouts\Extra Features\razer_blade_left_bottom_features.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -1065,6 +1067,7 @@
     <None Include="kb_layouts\generic_laptop.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="kb_layouts\razer_blackwidow_v2.json" />
     <None Include="kb_layouts\razer_blade.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
