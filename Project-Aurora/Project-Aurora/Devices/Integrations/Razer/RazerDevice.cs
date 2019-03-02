@@ -212,6 +212,10 @@ namespace Aurora.Devices.Razer
                             if (!UpdateDevice(mouse, e, forced))
                                 updateResult = false;
                             break;
+                        case MousepadDeviceLayout mousepad:
+                            if (!UpdateDevice(mousepad, e, forced))
+                                updateResult = false;
+                            break;
                     }
                 }
             }
@@ -589,6 +593,72 @@ namespace Aurora.Devices.Razer
                     return GridLed.RightSide7;
                 default:
                     return 0;
+
+            }
+        }
+
+        private bool UpdateDevice(MousepadDeviceLayout device, DoWorkEventArgs e, bool forced)
+        {
+            try
+            {
+                foreach (KeyValuePair<LEDINT, System.Drawing.Color> key in device.DeviceColours.deviceColours)
+                {
+                    if (e.Cancel) return false;
+                    int localLed = ToRazer((MousepadLights)key.Key);
+                    if (localLed >= 0 && localLed < 15)
+                        MousepadGrid[localLed] = new Corale.Colore.Core.Color(key.Value.R, key.Value.G, key.Value.B);
+                }
+                if (e.Cancel) return false;
+
+                mousepad.SetCustom(MousepadGrid);
+
+                return true;
+            }
+            catch (Exception exc)
+            {
+                Global.logger.Error("Razer device, error when updating device. Error: " + exc);
+                Console.WriteLine(exc);
+                return false;
+            }
+        }
+
+        private int ToRazer(MousepadLights light)
+        {
+            // Razer and Corsair have very similar mousepads... except the zones are backwards on the Razer one.
+            switch (light)
+            {
+                case MousepadLights.Mousepad_Lights + 0:
+                    return 14;
+                case MousepadLights.Mousepad_Lights + 1:
+                    return 13;
+                case MousepadLights.Mousepad_Lights + 2:
+                    return 12;
+                case MousepadLights.Mousepad_Lights + 3:
+                    return 11;
+                case MousepadLights.Mousepad_Lights + 4:
+                    return 10;
+                case MousepadLights.Mousepad_Lights + 5:
+                    return 9;
+                case MousepadLights.Mousepad_Lights + 6:
+                    return 8;
+                case MousepadLights.Mousepad_Lights + 7:
+                    return 7;
+                case MousepadLights.Mousepad_Lights + 8:
+                    return 6;
+                case MousepadLights.Mousepad_Lights + 9:
+                    return 5;
+                case MousepadLights.Mousepad_Lights + 10:
+                    return 4;
+                case MousepadLights.Mousepad_Lights + 11:
+                    return 3;
+                case MousepadLights.Mousepad_Lights + 12:
+                    return 2;
+                case MousepadLights.Mousepad_Lights + 13:
+                    return 1;
+                case MousepadLights.Mousepad_Lights + 14:
+                    return 0;
+                default:
+                    return -1;
 
             }
         }
