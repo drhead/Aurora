@@ -171,26 +171,48 @@ namespace Aurora.Devices.SteelSeries
         {
             if (e.Cancel) return false;
 
+            List<int[]> colors = new List<int[]>();
+
             foreach (KeyValuePair<LEDINT, Color> key in device.DeviceColours.deviceColours)
             {
                 if (e.Cancel) return false;
 
-                Color color = (Color)key.Value;
+                Color color = key.Value;
 
-                // JSON serializer doesn't understand keyvaluepairs, so single-item dictionaries are the way to go.
-                Dictionary<string, dynamic> colorPayload = new Dictionary<string, dynamic>();
-                colorPayload.Add("color", new int[] { color.R, color.G, color.B });
                 switch ((MouseLights)key.Key)
                 {
-                    case MouseLights.Peripheral_ScrollWheel:
-                        colorEvent.data.Add("mousewheel", colorPayload);
-                        break;
                     case MouseLights.Peripheral_Logo:
-                        colorEvent.data.Add("mouselogo", colorPayload);
+                        colors.Add(new int[] { color.R, color.G, color.B });
+                        break;
+                    case MouseLights.Peripheral_ScrollWheel:
+                        colors.Add(new int[] { color.R, color.G, color.B });
+                        break;
+                        // extra zones for Rival 600/650
+                    case MouseLights.Peripheral_ExtraLightLeftIndex:
+                        colors.Add(new int[] { color.R, color.G, color.B });
+                        break;
+                    case MouseLights.Peripheral_ExtraLightLeftIndex+1:
+                        colors.Add(new int[] { color.R, color.G, color.B });
+                        break;
+                    case MouseLights.Peripheral_ExtraLightLeftIndex+2:
+                        colors.Add(new int[] { color.R, color.G, color.B });
+                        break;
+                    case MouseLights.Peripheral_ExtraLightRightIndex:
+                        colors.Add(new int[] { color.R, color.G, color.B });
+                        break;
+                    case MouseLights.Peripheral_ExtraLightRightIndex+1:
+                        colors.Add(new int[] { color.R, color.G, color.B });
+                        break;
+                    case MouseLights.Peripheral_ExtraLightRightIndex+2:
+                        colors.Add(new int[] { color.R, color.G, color.B });
                         break;
                 }
             }
 
+
+            Dictionary<string, dynamic> mousePayload = new Dictionary<string, dynamic>();
+            mousePayload.Add("colors", colors);
+            colorEvent.data.Add("mouse", mousePayload);
             if (e.Cancel) return false;
             return true;
         }
@@ -226,6 +248,31 @@ namespace Aurora.Devices.SteelSeries
             return true;
         }
 
+        private bool UpdateDevice(MousepadDeviceLayout device, PayloadColorEventJSON colorEvent, DoWorkEventArgs e, bool forced)
+        {
+            if (e.Cancel) return false;
+
+            List<int[]> colors = new List<int[]>();
+
+            foreach (KeyValuePair<LEDINT, Color> key in device.DeviceColours.deviceColours)
+            {
+                if (e.Cancel) return false;
+
+                Color color = key.Value;
+                // let's just pray that they are in order
+                if((MousepadLights)key.Key >= MousepadLights.Mousepad_Lights &&
+                    (MousepadLights)key.Key < MousepadLights.Mousepad_Lights+12)
+                    colors.Add(new int[] { color.R, color.G, color.B });
+            }
+
+
+            Dictionary<string, dynamic> mousepadPayload = new Dictionary<string, dynamic>();
+            mousepadPayload.Add("colors", colors);
+            colorEvent.data.Add("mousepad", mousepadPayload);
+            if (e.Cancel) return false;
+            return true;
+        }
+
         public bool UpdateDevice(Color globalColor, List<DeviceLayout> devices, DoWorkEventArgs e, bool forced = false)
         {
             watch.Restart();
@@ -249,6 +296,10 @@ namespace Aurora.Devices.SteelSeries
                             break;
                         case MouseDeviceLayout mouse:
                             if (!UpdateDevice(mouse, colorEvent, e, forced))
+                                updateResult = false;
+                            break;
+                        case MousepadDeviceLayout mousepad:
+                            if (!UpdateDevice(mousepad, colorEvent, e, forced))
                                 updateResult = false;
                             break;
                     }
