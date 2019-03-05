@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Aurora.Profiles.Generic_Application;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,11 +15,11 @@ namespace Aurora.Profiles.Cataclysm_DDA
             ID = "Cataclysm",
             ProcessNames = new[] { "cataclysm-tiles.exe" },
             SettingsType = typeof(Settings.FirstTimeApplicationSettings),
-            //ProfileType = typeof(CataclysmProfile),
-            //OverviewControlType = typeof(Control_Cataclysm),
+            ProfileType = typeof(GenericApplicationProfile),
+            OverviewControlType = typeof(Control_GenericApplication),
             GameStateType = typeof(GSI.GameState_Cataclysm),
             Event = new GameEvent_Cataclysm(),
-            //IconURI = "Resources/Cataclysm_256x256.png"
+            IconURI = "Resources/Witcher3_256x256.png"
         })
         {
             // For when we add a new layer.

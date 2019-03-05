@@ -7,6 +7,22 @@ using System.Threading.Tasks;
 
 namespace Aurora.Profiles.Cataclysm_DDA
 {
+    public class CataBindsHolder
+    {
+        public IList<CataRawKeyAction> catabinds { get; set; }
+    }
+    public class CataRawKeyBinds
+    {
+        public string input_method { get; set; }
+        public IList<string> key { get; set; }
+    }
+
+    public class CataRawKeyAction
+    {
+        public string id { get; set; }
+        public string category { get; set; }
+        public IList<CataRawKeyBinds> bindings { get; set; }
+    }
     public class CataclysmKeybinds
     {
         // Outer dictionary key should be the context for the binding, augmented with _SHIFT if for caps. 
