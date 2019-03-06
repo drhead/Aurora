@@ -1,4 +1,5 @@
 ﻿using Aurora.Profiles.Generic_Application;
+using Aurora.Profiles.Cataclysm_DDA.Layers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace Aurora.Profiles.Cataclysm_DDA
             ID = "Cataclysm",
             ProcessNames = new[] { "cataclysm-tiles.exe" },
             SettingsType = typeof(Settings.FirstTimeApplicationSettings),
-            ProfileType = typeof(GenericApplicationProfile),
+            ProfileType = typeof(CataclysmProfile),
             OverviewControlType = typeof(Control_GenericApplication),
             GameStateType = typeof(GSI.GameState_Cataclysm),
             Event = new GameEvent_Cataclysm(),
@@ -24,9 +25,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
         {
             // For when we add a new layer.
 
-            /*var extra = new List<LayerHandlerEntry>
+            var extra = new List<LayerHandlerEntry>
             {
-                new LayerHandlerEntry("CataclysmLayer", "Cataclysm Something Layer", typeof(CataclysmSomethingLayerHandler)),
+                new LayerHandlerEntry("CataclysmKeybind", "Cataclysm Keybind Layer", typeof(CataclysmKeybindLayerHandler)),
             };
 
             Global.LightingStateManager.RegisterLayerHandlers(extra, false);
@@ -34,7 +35,7 @@ namespace Aurora.Profiles.Cataclysm_DDA
             foreach (var entry in extra)
             {
                 Config.ExtraAvailableLayers.Add(entry.Key);
-            }*/
+            }
         }
     }
 }

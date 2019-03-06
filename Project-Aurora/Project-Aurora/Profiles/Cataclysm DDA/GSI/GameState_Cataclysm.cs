@@ -30,6 +30,21 @@ namespace Aurora.Profiles.Cataclysm_DDA.GSI
         {
         }
 
+        /// <summary>
+        /// Creates a GameState instance based on the passed json data.
+        /// </summary>
+        /// <param name="json_data">The passed json data</param>
+        public GameState_Cataclysm(string json_data) : base(json_data)
+        {
+        }
+
+        /// <summary>
+        /// A copy constructor, creates a GameState_Cataclysm instance based on the data from the passed GameState instance.
+        /// </summary>
+        /// <param name="other_state">The passed GameState</param>
+        public GameState_Cataclysm(IGameState other_state) : base(other_state)
+        {
+        }
 
     }
 }

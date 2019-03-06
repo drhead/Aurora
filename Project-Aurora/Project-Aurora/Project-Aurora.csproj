@@ -430,6 +430,7 @@
     <Compile Include="Profiles\Cataclysm DDA\GSI\GameState_Cataclysm.cs" />
     <Compile Include="Profiles\Cataclysm DDA\GSI\Nodes\KeybindsNode.cs" />
     <Compile Include="Profiles\Cataclysm DDA\Layers\CataclysmKeybindLayerHandler.cs" />
+    <Compile Include="Profiles\Cataclysm DDA\CataclysmProfile.cs" />
     <Compile Include="Profiles\Dishonored\DishonoredApplication.cs" />
     <Compile Include="Profiles\Dishonored\DishonoredPointers.cs" />
     <Compile Include="Profiles\Dishonored\DishonoredProfile.cs" />

@@ -1,4 +1,6 @@
 ﻿using Aurora.Profiles.Cataclysm_DDA.GSI;
+using Aurora.Profiles.Cataclysm_DDA.GSI.Nodes;
+using Aurora.EffectsEngine;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -61,6 +63,32 @@ namespace Aurora.Profiles.Cataclysm_DDA
         {
             if (e.Name.Equals("keybindings.json") && e.ChangeType == WatcherChangeTypes.Changed)
                 ReloadData();
+        }
+
+        public override void UpdateLights(EffectFrame frame)
+        {
+            Queue<EffectLayer> layers = new Queue<EffectLayer>();
+
+            if (File.Exists(dataPath))
+            {
+                if (configObject != null)
+                {
+                    (_game_state as GameState_Cataclysm).Keybinds.keybinds = cataKeybinds;
+                }
+            }
+            //Artemis code
+
+
+            foreach (var layer in this.Application.Profile.Layers.Reverse().ToArray())
+            {
+                if (layer.Enabled && layer.LogicPass)
+                    layers.Enqueue(layer.Render(_game_state));
+            }
+
+            //Scripts
+            this.Application.UpdateEffectScripts(layers);
+
+            frame.AddLayers(layers.ToArray());
         }
 
         public override void ResetGameState()
