@@ -28,7 +28,7 @@ namespace Aurora.Profiles.Cataclysm_DDA
         // Outer dictionary key should be the context for the binding, augmented with _SHIFT if for caps. 
         // Inner dictionary key should be the action.
         // Inner dictionary value should be the binding.
-        private Dictionary<string, Dictionary<string, string>> keybinds = new Dictionary<string, Dictionary<string, string>>();
+        private Dictionary<string, Dictionary<string, List<DeviceKeys>>> keybinds;
 
         public DeviceKeys ToAurora(string keybind)
         {
@@ -219,11 +219,40 @@ namespace Aurora.Profiles.Cataclysm_DDA
 
         }
 
-        public Dictionary<string,string> GetContextKeybinds(string context)
+        public bool IsShifted(string keybind)
         {
-            Dictionary<string, string> keys = new Dictionary<string, string>();
+            if ("QWERTYUIOPASDFGHJKLZXCVBNM<>?:\"{}|~!@#$%^&*()_+".Contains(keybind))
+                return true;
+            else return false;
+        }
+
+        public Dictionary<string,List<DeviceKeys>> GetContextKeybinds(string context)
+        {
+            Dictionary<string, List<DeviceKeys>> keys = new Dictionary<string, List<DeviceKeys>>();
             keybinds.TryGetValue(context, out keys);
             return keys;
+        }
+
+        public void UpdateBinds(CataBindsHolder binds)
+        {
+            keybinds = new Dictionary<string, Dictionary<string, List<DeviceKeys>>>();
+            foreach (CataRawKeyAction action in binds.catabinds)
+                foreach(CataRawKeyBinds keybind in action.bindings)
+                    if (keybind.input_method == "keyboard")
+                    {
+                        string keyCategory = action.category;
+                        string thisKey = keybind.key.First();
+
+                        if (IsShifted(thisKey))
+                            keyCategory = keyCategory + "_SHIFT";
+
+                        if (!(keybinds.ContainsKey(keyCategory)))
+                            keybinds.Add(keyCategory, new Dictionary<string, List<DeviceKeys>>());
+                        if(!(keybinds[keyCategory].ContainsKey(action.id)))
+                            keybinds[keyCategory].Add(action.id, new List<DeviceKeys>());
+
+                        keybinds[keyCategory][action.id].Add(ToAurora(thisKey));
+                    }
         }
 
 

@@ -17,6 +17,7 @@ namespace Aurora.Profiles.Cataclysm_DDA
         //private readonly Regex _configRegex;
         private string configContent;
         private CataBindsHolder configObject;
+        public CataclysmKeybinds cataKeybinds = new CataclysmKeybinds();
         string dataFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\my games\\Cataclysm DDA\\config";
         string dataPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\my games\\Cataclysm DDA\\config", "keybindings.json");
 
@@ -45,9 +46,10 @@ namespace Aurora.Profiles.Cataclysm_DDA
                 reader.Dispose();
                 configContent = "{\"catabinds\": " + configContent + "}";
 
-
-                isInitialized = true;
                 configObject = JsonConvert.DeserializeObject<CataBindsHolder>(configContent);
+                cataKeybinds.UpdateBinds(configObject);
+                isInitialized = true;
+
             }
             else
             {
