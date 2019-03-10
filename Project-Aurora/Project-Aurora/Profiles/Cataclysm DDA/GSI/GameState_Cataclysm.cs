@@ -11,6 +11,7 @@ namespace Aurora.Profiles.Cataclysm_DDA.GSI
     {
         //private Player_Cataclysm player;
         private KeybindsNode keybinds;
+        private StateNode state;
         //private Context_Cataclysm context;
 
         public KeybindsNode Keybinds
@@ -20,6 +21,16 @@ namespace Aurora.Profiles.Cataclysm_DDA.GSI
                 if (keybinds == null)
                     keybinds = new KeybindsNode();
                 return keybinds;
+            }
+        }
+
+        public StateNode State
+        {
+            get
+            {
+                if (state == null)
+                    state = new StateNode();
+                return state;
             }
         }
 

@@ -14,7 +14,7 @@ namespace Aurora.Profiles.Cataclysm_DDA
         {
             Name = "Cataclysm: Dark Days Ahead",
             ID = "Cataclysm",
-            ProcessNames = new[] { "cataclysm-tiles.exe" },
+            ProcessNames = new[] { "cataclysm-tiles.exe", "Cataclysm-.exe" },
             SettingsType = typeof(Settings.FirstTimeApplicationSettings),
             ProfileType = typeof(CataclysmProfile),
             OverviewControlType = typeof(Control_GenericApplication),

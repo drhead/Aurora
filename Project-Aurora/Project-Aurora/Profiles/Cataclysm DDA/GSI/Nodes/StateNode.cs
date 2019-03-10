@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Aurora.Profiles.Cataclysm_DDA.GSI.Nodes
 {
-    public class KeybindsNode : Node<KeybindsNode>
+    public class StateNode : Node<StateNode>
     {
-        public CataclysmKeybinds keybinds;
+        //public CataclysmState state;
         // true for text input, false otherwise
-        public bool inputMode;
-        public string inputContext = "default";
-        public string menuContext = "default";
+        //public bool inputMode;
+        //public string inputContext = "default";
     }
 }
+

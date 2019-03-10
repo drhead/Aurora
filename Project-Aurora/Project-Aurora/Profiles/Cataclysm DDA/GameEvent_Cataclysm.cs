@@ -17,39 +17,73 @@ namespace Aurora.Profiles.Cataclysm_DDA
     {
         private bool isInitialized = false;
         //private readonly Regex _configRegex;
-        private string configContent;
-        private CataBindsHolder configObject;
+        private string bindsContent;
+        private string stateContent;
+        private CataBindsHolder bindsObject;
+        private CataStateHolder stateObject;
         public CataclysmKeybinds cataKeybinds = new CataclysmKeybinds();
-        string dataFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\my games\\Cataclysm DDA\\config";
-        string dataPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\my games\\Cataclysm DDA\\config", "keybindings.json");
+        string bindsFolder = "C:\\Users\\Aaron\\Documents\\GitHub\\Cataclysm-DDA\\config";
+        string stateFolder = "C:\\Users\\Aaron\\Documents\\GitHub\\Cataclysm-DDA\\temp";
+        string dataPath_binds = System.IO.Path.Combine("C:\\Users\\Aaron\\Documents\\GitHub\\Cataclysm-DDA\\config", "keybindings.json");
+        string dataPath_state = System.IO.Path.Combine("C:\\Users\\Aaron\\Documents\\GitHub\\Cataclysm-DDA\\temp", "gamestate.json");
 
         public GameEvent_Cataclysm() : base()
         {
             //_configRegex = new Regex("\\[Artemis\\](.+?)\\[", RegexOptions.Singleline);
 
-            if (Directory.Exists(dataFolder))
+            if (Directory.Exists(bindsFolder))
             {
-                FileSystemWatcher watcher = new FileSystemWatcher();
-                watcher.Path = dataFolder;
-                watcher.Changed += dataFile_Changed;
-                watcher.EnableRaisingEvents = true;
+                FileSystemWatcher datawatcher = new FileSystemWatcher();
+                datawatcher.Path = bindsFolder;
+                datawatcher.Changed += dataFile_Changed;
+                datawatcher.EnableRaisingEvents = true;
 
-                ReloadData();
+                ReloadBinds();
+            }
+            if (Directory.Exists(stateFolder))
+            {
+                FileSystemWatcher statewatcher = new FileSystemWatcher();
+                statewatcher.Path = stateFolder;
+                statewatcher.Changed += stateFile_Changed;
+                statewatcher.EnableRaisingEvents = true;
+
+                ReloadState();
             }
         }
 
-        private void ReloadData()
+        private void ReloadBinds()
         {
-            if (File.Exists(dataPath))
+            if (File.Exists(dataPath_binds))
             {
-                var reader = new StreamReader(File.Open(dataPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
-                configContent = reader.ReadToEnd();
+                var reader = new StreamReader(File.Open(dataPath_binds, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
+                bindsContent = reader.ReadToEnd();
                 reader.Close();
                 reader.Dispose();
-                configContent = "{\"catabinds\": " + configContent + "}";
+                bindsContent = "{\"catabinds\": " + bindsContent + "}";
 
-                configObject = JsonConvert.DeserializeObject<CataBindsHolder>(configContent);
-                cataKeybinds.UpdateBinds(configObject);
+                bindsObject = JsonConvert.DeserializeObject<CataBindsHolder>(bindsContent);
+                cataKeybinds.UpdateBinds(bindsObject);
+                isInitialized = true;
+
+            }
+            else
+            {
+                isInitialized = false;
+            }
+        }
+
+        private void ReloadState()
+        { 
+            if (File.Exists(dataPath_state))
+            {
+                var reader = new StreamReader(File.Open(dataPath_state, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
+                stateContent = reader.ReadToEnd();
+                reader.Close();
+                reader.Dispose();
+                //bindsContent = "{\"catabinds\": " + bindsContent + "}";
+
+                stateObject = JsonConvert.DeserializeObject<CataStateHolder>(stateContent);
+                //cataKeybinds.UpdateBinds(bindsObject);
                 isInitialized = true;
 
             }
@@ -62,22 +96,36 @@ namespace Aurora.Profiles.Cataclysm_DDA
         private void dataFile_Changed(object sender, FileSystemEventArgs e)
         {
             if (e.Name.Equals("keybindings.json") && e.ChangeType == WatcherChangeTypes.Changed)
-                ReloadData();
+                ReloadBinds();
+        }
+
+        private void stateFile_Changed(object sender, FileSystemEventArgs e)
+        {
+            if (e.Name.Equals("gamestate.json") && e.ChangeType == WatcherChangeTypes.Changed)
+                ReloadState();
         }
 
         public override void UpdateLights(EffectFrame frame)
         {
             Queue<EffectLayer> layers = new Queue<EffectLayer>();
 
-            if (File.Exists(dataPath))
+            if (File.Exists(dataPath_binds))
             {
-                if (configObject != null)
+                if (bindsObject != null)
                 {
                     (_game_state as GameState_Cataclysm).Keybinds.keybinds = cataKeybinds;
                 }
             }
             //Artemis code
-
+            if (File.Exists(dataPath_state))
+            {
+                if (stateObject != null)
+                {
+                    (_game_state as GameState_Cataclysm).Keybinds.inputContext = stateObject.keybinds.input_context;
+                    (_game_state as GameState_Cataclysm).Keybinds.menuContext = stateObject.keybinds.menu_context;
+                    //(_game_state as GameState_Cataclysm).State.state = cataState;
+                }
+            }
 
             foreach (var layer in this.Application.Profile.Layers.Reverse().ToArray())
             {

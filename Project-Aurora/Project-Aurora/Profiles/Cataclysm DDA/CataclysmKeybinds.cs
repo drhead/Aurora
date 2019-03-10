@@ -86,29 +86,41 @@ namespace Aurora.Profiles.Cataclysm_DDA
                     return DeviceKeys.Y;
                 case "Z":
                     return DeviceKeys.Z;
-                case "0":
-                    return DeviceKeys.ZERO;
                 case "1":
+                case "!":
                     return DeviceKeys.ONE;
                 case "2":
+                case "@":
                     return DeviceKeys.TWO;
                 case "3":
+                case "#":
                     return DeviceKeys.THREE;
                 case "4":
+                case "$":
                     return DeviceKeys.FOUR;
                 case "5":
+                case "%":
                     return DeviceKeys.FIVE;
                 case "6":
+                case "^":
                     return DeviceKeys.SIX;
                 case "7":
+                case "&":
                     return DeviceKeys.SEVEN;
                 case "8":
+                case "*":
                     return DeviceKeys.EIGHT;
                 case "9":
+                case "(":
                     return DeviceKeys.NINE;
+                case "0":
+                case ")":
+                    return DeviceKeys.ZERO;
                 case "-":
+                case "_":
                     return DeviceKeys.MINUS;
                 case "=":
+                case "+":
                     return DeviceKeys.EQUALS;
                 case ":":
                 case ";":
@@ -125,30 +137,6 @@ namespace Aurora.Profiles.Cataclysm_DDA
                 case "/":
                 case "?":
                     return DeviceKeys.FORWARD_SLASH;
-                case "!":
-                    return DeviceKeys.ONE;
-                case "@":
-                    return DeviceKeys.TWO;
-                case "#":
-                    return DeviceKeys.THREE;
-                case "$":
-                    return DeviceKeys.FOUR;
-                case "%":
-                    return DeviceKeys.FIVE;
-                case "^":
-                    return DeviceKeys.SIX;
-                case "&":
-                    return DeviceKeys.SEVEN;
-                case "*":
-                    return DeviceKeys.EIGHT;
-                case "(":
-                    return DeviceKeys.NINE;
-                case ")":
-                    return DeviceKeys.ZERO;
-                case "_":
-                    return DeviceKeys.MINUS;
-                case "+":
-                    return DeviceKeys.EQUALS;
                 case "[":
                 case "{":
                     return DeviceKeys.OPEN_BRACKET;
@@ -162,6 +150,7 @@ namespace Aurora.Profiles.Cataclysm_DDA
                 case "~":
                     return DeviceKeys.TILDE;
                 case "TAB":
+                case "BACKTAB":
                     return DeviceKeys.TAB;
                 case "SPACE":
                     return DeviceKeys.SPACE;
@@ -221,7 +210,7 @@ namespace Aurora.Profiles.Cataclysm_DDA
 
         public bool IsShifted(string keybind)
         {
-            if ("QWERTYUIOPASDFGHJKLZXCVBNM<>?:\"{}|~!@#$%^&*()_+".Contains(keybind))
+            if ("QWERTYUIOPASDFGHJKLZXCVBNM<>?:\"{}|~!@#$%^&*()_+".Contains(keybind) || keybind == "BACKTAB")
                 return true;
             else return false;
         }
