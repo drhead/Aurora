@@ -22,6 +22,12 @@ namespace Aurora.Profiles.Cataclysm_DDA
         public int hunger { get; set; }
         public int thirst { get; set; }
         public int fatigue { get; set; }
+        public int temp_level { get; set; }
+        public int temp_change { get; set; }
+        public int[] hp_cur { get; set; }
+        public int[] hp_max { get; set; }
+        public double[] splints { get; set; }
+        public int[] limbs { get; set; }
         public int stamina { get; set; }
         public int stamina_max { get; set; }
         public int power_level { get; set; }

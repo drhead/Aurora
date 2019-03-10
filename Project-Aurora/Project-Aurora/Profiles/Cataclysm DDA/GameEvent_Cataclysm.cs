@@ -53,20 +53,27 @@ namespace Aurora.Profiles.Cataclysm_DDA
 
         private void ReloadBinds()
         {
-            if (File.Exists(dataPath_binds))
+            try
             {
-                var reader = new StreamReader(File.Open(dataPath_binds, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
-                bindsContent = reader.ReadToEnd();
-                reader.Close();
-                reader.Dispose();
-                bindsContent = "{\"catabinds\": " + bindsContent + "}";
+                if (File.Exists(dataPath_binds))
+                {
+                    var reader = new StreamReader(File.Open(dataPath_binds, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
+                    bindsContent = reader.ReadToEnd();
+                    reader.Close();
+                    reader.Dispose();
+                    bindsContent = "{\"catabinds\": " + bindsContent + "}";
 
-                bindsObject = JsonConvert.DeserializeObject<CataBindsHolder>(bindsContent);
-                cataKeybinds.UpdateBinds(bindsObject);
-                isInitialized = true;
+                    bindsObject = JsonConvert.DeserializeObject<CataBindsHolder>(bindsContent);
+                    cataKeybinds.UpdateBinds(bindsObject);
+                    isInitialized = true;
 
+                }
+                else
+                {
+                    isInitialized = false;
+                }
             }
-            else
+            catch
             {
                 isInitialized = false;
             }
@@ -74,20 +81,27 @@ namespace Aurora.Profiles.Cataclysm_DDA
 
         private void ReloadState()
         { 
-            if (File.Exists(dataPath_state))
+            try
             {
-                var reader = new StreamReader(File.Open(dataPath_state, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
-                stateContent = reader.ReadToEnd();
-                reader.Close();
-                reader.Dispose();
-                //bindsContent = "{\"catabinds\": " + bindsContent + "}";
+                if (File.Exists(dataPath_state))
+                {
+                    var reader = new StreamReader(File.Open(dataPath_state, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
+                    stateContent = reader.ReadToEnd();
+                    reader.Close();
+                    reader.Dispose();
+                    //bindsContent = "{\"catabinds\": " + bindsContent + "}";
 
-                stateObject = JsonConvert.DeserializeObject<CataStateHolder>(stateContent);
-                //cataKeybinds.UpdateBinds(bindsObject);
-                isInitialized = true;
+                    stateObject = JsonConvert.DeserializeObject<CataStateHolder>(stateContent);
+                    //cataKeybinds.UpdateBinds(bindsObject);
+                    isInitialized = true;
 
+                }
+                else
+                {
+                    isInitialized = false;
+                }
             }
-            else
+            catch
             {
                 isInitialized = false;
             }
@@ -127,6 +141,12 @@ namespace Aurora.Profiles.Cataclysm_DDA
                     (_game_state as GameState_Cataclysm).Player.hunger = stateObject.player.hunger;
                     (_game_state as GameState_Cataclysm).Player.thirst = stateObject.player.thirst;
                     (_game_state as GameState_Cataclysm).Player.fatigue = stateObject.player.fatigue;
+                    (_game_state as GameState_Cataclysm).Player.temp_level = stateObject.player.temp_level;
+                    (_game_state as GameState_Cataclysm).Player.temp_change = stateObject.player.temp_change;
+                    (_game_state as GameState_Cataclysm).Player.hp_cur = stateObject.player.hp_cur;
+                    (_game_state as GameState_Cataclysm).Player.hp_max = stateObject.player.hp_max;
+                    (_game_state as GameState_Cataclysm).Player.splints = stateObject.player.splints;
+                    (_game_state as GameState_Cataclysm).Player.limbs = stateObject.player.limbs;
                     (_game_state as GameState_Cataclysm).Player.stamina = stateObject.player.stamina;
                     (_game_state as GameState_Cataclysm).Player.stamina_max = stateObject.player.stamina_max;
                     (_game_state as GameState_Cataclysm).Player.power_level = stateObject.player.power_level;
@@ -139,7 +159,7 @@ namespace Aurora.Profiles.Cataclysm_DDA
 
             foreach (var layer in this.Application.Profile.Layers.Reverse().ToArray())
             {
-                if (layer.Enabled && layer.LogicPass)
+                if (layer.Enabled)
                     layers.Enqueue(layer.Render(_game_state));
             }
 
