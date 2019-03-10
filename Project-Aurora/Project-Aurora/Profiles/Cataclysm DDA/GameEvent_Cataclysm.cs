@@ -123,7 +123,17 @@ namespace Aurora.Profiles.Cataclysm_DDA
                 {
                     (_game_state as GameState_Cataclysm).Keybinds.inputContext = stateObject.keybinds.input_context;
                     (_game_state as GameState_Cataclysm).Keybinds.menuContext = stateObject.keybinds.menu_context;
-                    //(_game_state as GameState_Cataclysm).State.state = cataState;
+                    (_game_state as GameState_Cataclysm).Player.selfAware = stateObject.player.is_self_aware;
+                    (_game_state as GameState_Cataclysm).Player.hunger = stateObject.player.hunger;
+                    (_game_state as GameState_Cataclysm).Player.thirst = stateObject.player.thirst;
+                    (_game_state as GameState_Cataclysm).Player.fatigue = stateObject.player.fatigue;
+                    (_game_state as GameState_Cataclysm).Player.stamina = stateObject.player.stamina;
+                    (_game_state as GameState_Cataclysm).Player.stamina_max = stateObject.player.stamina_max;
+                    (_game_state as GameState_Cataclysm).Player.power_level = stateObject.player.power_level;
+                    (_game_state as GameState_Cataclysm).Player.max_power_level = stateObject.player.max_power_level;
+                    (_game_state as GameState_Cataclysm).Player.pain = stateObject.player.pain;
+                    (_game_state as GameState_Cataclysm).Player.morale = stateObject.player.morale;
+                    (_game_state as GameState_Cataclysm).Player.safe_mode = stateObject.player.safe_mode;
                 }
             }
 
