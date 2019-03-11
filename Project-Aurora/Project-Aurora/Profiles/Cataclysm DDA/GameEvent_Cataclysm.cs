@@ -143,10 +143,7 @@ namespace Aurora.Profiles.Cataclysm_DDA
                     (_game_state as GameState_Cataclysm).Player.fatigue = stateObject.player.fatigue;
                     (_game_state as GameState_Cataclysm).Player.temp_level = stateObject.player.temp_level;
                     (_game_state as GameState_Cataclysm).Player.temp_change = stateObject.player.temp_change;
-                    (_game_state as GameState_Cataclysm).Player.hp_cur = stateObject.player.hp_cur;
-                    (_game_state as GameState_Cataclysm).Player.hp_max = stateObject.player.hp_max;
-                    (_game_state as GameState_Cataclysm).Player.splints = stateObject.player.splints;
-                    (_game_state as GameState_Cataclysm).Player.limbs = stateObject.player.limbs;
+
                     (_game_state as GameState_Cataclysm).Player.stamina = stateObject.player.stamina;
                     (_game_state as GameState_Cataclysm).Player.stamina_max = stateObject.player.stamina_max;
                     (_game_state as GameState_Cataclysm).Player.power_level = stateObject.player.power_level;
@@ -154,6 +151,36 @@ namespace Aurora.Profiles.Cataclysm_DDA
                     (_game_state as GameState_Cataclysm).Player.pain = stateObject.player.pain;
                     (_game_state as GameState_Cataclysm).Player.morale = stateObject.player.morale;
                     (_game_state as GameState_Cataclysm).Player.safe_mode = stateObject.player.safe_mode;
+
+                    (_game_state as GameState_Cataclysm).Player.head.hp_cur = stateObject.player.hp_cur[0];
+                    (_game_state as GameState_Cataclysm).Player.head.hp_max = stateObject.player.hp_max[0];
+                    (_game_state as GameState_Cataclysm).Player.head.splint = stateObject.player.splints[0];
+                    (_game_state as GameState_Cataclysm).Player.head.status = stateObject.player.limbs[0];
+
+                    (_game_state as GameState_Cataclysm).Player.torso.hp_cur = stateObject.player.hp_cur[1];
+                    (_game_state as GameState_Cataclysm).Player.torso.hp_max = stateObject.player.hp_max[1];
+                    (_game_state as GameState_Cataclysm).Player.torso.splint = stateObject.player.splints[1];
+                    (_game_state as GameState_Cataclysm).Player.torso.status = stateObject.player.limbs[1];
+
+                    (_game_state as GameState_Cataclysm).Player.leftarm.hp_cur = stateObject.player.hp_cur[2];
+                    (_game_state as GameState_Cataclysm).Player.leftarm.hp_max = stateObject.player.hp_max[2];
+                    (_game_state as GameState_Cataclysm).Player.leftarm.splint = stateObject.player.splints[2];
+                    (_game_state as GameState_Cataclysm).Player.leftarm.status = stateObject.player.limbs[2];
+
+                    (_game_state as GameState_Cataclysm).Player.leftleg.hp_cur = stateObject.player.hp_cur[3];
+                    (_game_state as GameState_Cataclysm).Player.leftleg.hp_max = stateObject.player.hp_max[3];
+                    (_game_state as GameState_Cataclysm).Player.leftleg.splint = stateObject.player.splints[3];
+                    (_game_state as GameState_Cataclysm).Player.leftleg.status = stateObject.player.limbs[3];
+
+                    (_game_state as GameState_Cataclysm).Player.rightarm.hp_cur = stateObject.player.hp_cur[4];
+                    (_game_state as GameState_Cataclysm).Player.rightarm.hp_max = stateObject.player.hp_max[4];
+                    (_game_state as GameState_Cataclysm).Player.rightarm.splint = stateObject.player.splints[4];
+                    (_game_state as GameState_Cataclysm).Player.rightarm.status = stateObject.player.limbs[4];
+
+                    (_game_state as GameState_Cataclysm).Player.rightleg.hp_cur = stateObject.player.hp_cur[5];
+                    (_game_state as GameState_Cataclysm).Player.rightleg.hp_max = stateObject.player.hp_max[5];
+                    (_game_state as GameState_Cataclysm).Player.rightleg.splint = stateObject.player.splints[5];
+                    (_game_state as GameState_Cataclysm).Player.rightleg.status = stateObject.player.limbs[5];
                 }
             }
 
