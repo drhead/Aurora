@@ -8,26 +8,24 @@ using System.Threading.Tasks;
 namespace Aurora.Profiles.Cataclysm_DDA
 {
 
-    public interface IFileReader
-
-    public class CataFileReader<TClass>
+    public class CataFileReader
     {
-        public CataFileReader(string path) : base(path)
+        public CataFileReader(string filepath)
         {
+            path = filepath;
             fw = new FileSystemWatcher();
             fw.Path = Path.GetDirectoryName(path);
             filename = Path.GetFileName(path);
-            filepath = path;
             fw.Changed += fw_onChange;
             fw.EnableRaisingEvents = true;
 
             ReadFile();
         }
-        private string filepath;
+        private string path;
         private FileSystemWatcher fw;
         private string filename;
 
-        public string fileContent { get; }
+        public string fileContent;
         public dynamic fileObject;
 
         private void fw_onChange(object sender, FileSystemEventArgs e)

@@ -1,5 +1,6 @@
 ﻿using Aurora.Profiles.Cataclysm_DDA.GSI;
 using Aurora.Profiles.Cataclysm_DDA.GSI.Nodes;
+using Aurora.Profiles.Cataclysm_DDA.FileReaders;
 using Aurora.EffectsEngine;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -15,12 +16,13 @@ namespace Aurora.Profiles.Cataclysm_DDA
 {
     public class GameEvent_Cataclysm : LightEvent
     {
-        private bool isInitialized = false;
+        private bool isInitialized = true;
         //private readonly Regex _configRegex;
         private string bindsContent;
         private string stateContent;
         private CataBindsHolder bindsObject;
         private CataStateHolder stateObject;
+        KeybindsFileReader keybinds;
         public CataclysmKeybinds cataKeybinds = new CataclysmKeybinds();
         string bindsFolder = "C:\\Users\\Aaron\\Documents\\GitHub\\Cataclysm-DDA\\config";
         string stateFolder = "C:\\Users\\Aaron\\Documents\\GitHub\\Cataclysm-DDA\\temp";
@@ -32,14 +34,8 @@ namespace Aurora.Profiles.Cataclysm_DDA
             //_configRegex = new Regex("\\[Artemis\\](.+?)\\[", RegexOptions.Singleline);
 
             if (Directory.Exists(bindsFolder))
-            {
-                FileSystemWatcher datawatcher = new FileSystemWatcher();
-                datawatcher.Path = bindsFolder;
-                datawatcher.Changed += dataFile_Changed;
-                datawatcher.EnableRaisingEvents = true;
+                keybinds = new KeybindsFileReader(dataPath_binds);
 
-                ReloadBinds();
-            }
             if (Directory.Exists(stateFolder))
             {
                 FileSystemWatcher statewatcher = new FileSystemWatcher();
@@ -48,34 +44,6 @@ namespace Aurora.Profiles.Cataclysm_DDA
                 statewatcher.EnableRaisingEvents = true;
 
                 ReloadState();
-            }
-        }
-
-        private void ReloadBinds()
-        {
-            try
-            {
-                if (File.Exists(dataPath_binds))
-                {
-                    var reader = new StreamReader(File.Open(dataPath_binds, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
-                    bindsContent = reader.ReadToEnd();
-                    reader.Close();
-                    reader.Dispose();
-                    bindsContent = "{\"catabinds\": " + bindsContent + "}";
-
-                    bindsObject = JsonConvert.DeserializeObject<CataBindsHolder>(bindsContent);
-                    cataKeybinds.UpdateBinds(bindsObject);
-                    isInitialized = true;
-
-                }
-                else
-                {
-                    isInitialized = false;
-                }
-            }
-            catch
-            {
-                isInitialized = false;
             }
         }
 
@@ -105,12 +73,6 @@ namespace Aurora.Profiles.Cataclysm_DDA
             {
                 isInitialized = false;
             }
-        }
-
-        private void dataFile_Changed(object sender, FileSystemEventArgs e)
-        {
-            if (e.Name.Equals("keybindings.json") && e.ChangeType == WatcherChangeTypes.Changed)
-                ReloadBinds();
         }
 
         private void stateFile_Changed(object sender, FileSystemEventArgs e)
