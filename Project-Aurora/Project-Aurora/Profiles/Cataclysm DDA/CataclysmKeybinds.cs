@@ -30,190 +30,132 @@ namespace Aurora.Profiles.Cataclysm_DDA
         // Inner dictionary value should be the binding.
         private Dictionary<string, Dictionary<string, List<DeviceKeys>>> keybinds;
 
-        public DeviceKeys ToAurora(string keybind)
+        private Dictionary<string, Tuple<DeviceKeys, bool>> ToAurora = new Dictionary<string, Tuple<DeviceKeys, bool>>()
         {
-            switch (keybind.ToUpper())
-            {
-                case "A":
-                    return DeviceKeys.A;
-                case "B":
-                    return DeviceKeys.B;
-                case "C":
-                    return DeviceKeys.C;
-                case "D":
-                    return DeviceKeys.D;
-                case "E":
-                    return DeviceKeys.E;
-                case "F":
-                    return DeviceKeys.F;
-                case "G":
-                    return DeviceKeys.G;
-                case "H":
-                    return DeviceKeys.H;
-                case "I":
-                    return DeviceKeys.I;
-                case "J":
-                    return DeviceKeys.J;
-                case "K":
-                    return DeviceKeys.K;
-                case "L":
-                    return DeviceKeys.L;
-                case "M":
-                    return DeviceKeys.M;
-                case "N":
-                    return DeviceKeys.N;
-                case "O":
-                    return DeviceKeys.O;
-                case "P":
-                    return DeviceKeys.P;
-                case "Q":
-                    return DeviceKeys.Q;
-                case "R":
-                    return DeviceKeys.R;
-                case "S":
-                    return DeviceKeys.S;
-                case "T":
-                    return DeviceKeys.T;
-                case "U":
-                    return DeviceKeys.U;
-                case "V":
-                    return DeviceKeys.V;
-                case "W":
-                    return DeviceKeys.W;
-                case "X":
-                    return DeviceKeys.X;
-                case "Y":
-                    return DeviceKeys.Y;
-                case "Z":
-                    return DeviceKeys.Z;
-                case "1":
-                case "!":
-                    return DeviceKeys.ONE;
-                case "2":
-                case "@":
-                    return DeviceKeys.TWO;
-                case "3":
-                case "#":
-                    return DeviceKeys.THREE;
-                case "4":
-                case "$":
-                    return DeviceKeys.FOUR;
-                case "5":
-                case "%":
-                    return DeviceKeys.FIVE;
-                case "6":
-                case "^":
-                    return DeviceKeys.SIX;
-                case "7":
-                case "&":
-                    return DeviceKeys.SEVEN;
-                case "8":
-                case "*":
-                    return DeviceKeys.EIGHT;
-                case "9":
-                case "(":
-                    return DeviceKeys.NINE;
-                case "0":
-                case ")":
-                    return DeviceKeys.ZERO;
-                case "-":
-                case "_":
-                    return DeviceKeys.MINUS;
-                case "=":
-                case "+":
-                    return DeviceKeys.EQUALS;
-                case ":":
-                case ";":
-                    return DeviceKeys.SEMICOLON;
-                case "'":
-                case "\"":
-                    return DeviceKeys.APOSTROPHE;
-                case ",":
-                case "<":
-                    return DeviceKeys.COMMA;
-                case ".":
-                case ">":
-                    return DeviceKeys.PERIOD;
-                case "/":
-                case "?":
-                    return DeviceKeys.FORWARD_SLASH;
-                case "[":
-                case "{":
-                    return DeviceKeys.OPEN_BRACKET;
-                case "]":
-                case "}":
-                    return DeviceKeys.CLOSE_BRACKET;
-                case "\\":
-                case "|":
-                    return DeviceKeys.BACKSLASH;
-                case "`":
-                case "~":
-                    return DeviceKeys.TILDE;
-                case "TAB":
-                case "BACKTAB":
-                    return DeviceKeys.TAB;
-                case "SPACE":
-                    return DeviceKeys.SPACE;
-                case "UP":
-                    return DeviceKeys.ARROW_UP;
-                case "DOWN":
-                    return DeviceKeys.ARROW_DOWN;
-                case "LEFT":
-                    return DeviceKeys.ARROW_LEFT;
-                case "RIGHT":
-                    return DeviceKeys.ARROW_RIGHT;
-                case "NPAGE":
-                    return DeviceKeys.PAGE_DOWN;
-                case "PPAGE":
-                    return DeviceKeys.PAGE_UP;
-                case "ESC":
-                    return DeviceKeys.ESC;
-                case "BACKSPACE":
-                    return DeviceKeys.BACKSPACE;
-                case "HOME":
-                    return DeviceKeys.HOME;
-                case "BREAK":
-                    return DeviceKeys.PAUSE_BREAK;
-                case "END":
-                    return DeviceKeys.END;
-                case "RETURN":
-                    return DeviceKeys.ENTER;
-                case "F1":
-                    return DeviceKeys.F1;
-                case "F2":
-                    return DeviceKeys.F2;
-                case "F3":
-                    return DeviceKeys.F3;
-                case "F4":
-                    return DeviceKeys.F4;
-                case "F5":
-                    return DeviceKeys.F5;
-                case "F6":
-                    return DeviceKeys.F6;
-                case "F7":
-                    return DeviceKeys.F7;
-                case "F8":
-                    return DeviceKeys.F8;
-                case "F9":
-                    return DeviceKeys.F9;
-                case "F10":
-                    return DeviceKeys.F10;
-                case "F11":
-                    return DeviceKeys.F11;
-                case "F12":
-                    return DeviceKeys.F12;
-                default:
-                    return DeviceKeys.NONE;
-            }
+            {"a",   new Tuple<DeviceKeys, bool>(DeviceKeys.A, false) },
+            {"A",   new Tuple<DeviceKeys, bool>(DeviceKeys.A, true) },
+            {"b",   new Tuple<DeviceKeys, bool>(DeviceKeys.B, false) },
+            {"B",   new Tuple<DeviceKeys, bool>(DeviceKeys.B, true) },
+            {"c",   new Tuple<DeviceKeys, bool>(DeviceKeys.C, false) },
+            {"C",   new Tuple<DeviceKeys, bool>(DeviceKeys.C, true) },
+            {"d",   new Tuple<DeviceKeys, bool>(DeviceKeys.D, false) },
+            {"D",   new Tuple<DeviceKeys, bool>(DeviceKeys.D, true) },
+            {"e",   new Tuple<DeviceKeys, bool>(DeviceKeys.E, false) },
+            {"E",   new Tuple<DeviceKeys, bool>(DeviceKeys.E, true) },
+            {"f",   new Tuple<DeviceKeys, bool>(DeviceKeys.F, false) },
+            {"F",   new Tuple<DeviceKeys, bool>(DeviceKeys.F, true) },
+            {"g",   new Tuple<DeviceKeys, bool>(DeviceKeys.G, false) },
+            {"G",   new Tuple<DeviceKeys, bool>(DeviceKeys.G, true) },
+            {"h",   new Tuple<DeviceKeys, bool>(DeviceKeys.H, false) },
+            {"H",   new Tuple<DeviceKeys, bool>(DeviceKeys.H, true) },
+            {"i",   new Tuple<DeviceKeys, bool>(DeviceKeys.I, false) },
+            {"I",   new Tuple<DeviceKeys, bool>(DeviceKeys.I, true) },
+            {"j",   new Tuple<DeviceKeys, bool>(DeviceKeys.J, false) },
+            {"J",   new Tuple<DeviceKeys, bool>(DeviceKeys.J, true) },
+            {"k",   new Tuple<DeviceKeys, bool>(DeviceKeys.K, false) },
+            {"K",   new Tuple<DeviceKeys, bool>(DeviceKeys.K, true) },
+            {"l",   new Tuple<DeviceKeys, bool>(DeviceKeys.L, false) },
+            {"L",   new Tuple<DeviceKeys, bool>(DeviceKeys.L, true) },
+            {"m",   new Tuple<DeviceKeys, bool>(DeviceKeys.M, false) },
+            {"M",   new Tuple<DeviceKeys, bool>(DeviceKeys.M, true) },
+            {"n",   new Tuple<DeviceKeys, bool>(DeviceKeys.N, false) },
+            {"N",   new Tuple<DeviceKeys, bool>(DeviceKeys.N, true) },
+            {"o",   new Tuple<DeviceKeys, bool>(DeviceKeys.O, false) },
+            {"O",   new Tuple<DeviceKeys, bool>(DeviceKeys.O, true) },
+            {"p",   new Tuple<DeviceKeys, bool>(DeviceKeys.P, false) },
+            {"P",   new Tuple<DeviceKeys, bool>(DeviceKeys.P, true) },
+            {"q",   new Tuple<DeviceKeys, bool>(DeviceKeys.Q, false) },
+            {"Q",   new Tuple<DeviceKeys, bool>(DeviceKeys.Q, true) },
+            {"r",   new Tuple<DeviceKeys, bool>(DeviceKeys.R, false) },
+            {"R",   new Tuple<DeviceKeys, bool>(DeviceKeys.R, true) },
+            {"s",   new Tuple<DeviceKeys, bool>(DeviceKeys.S, false) },
+            {"S",   new Tuple<DeviceKeys, bool>(DeviceKeys.S, true) },
+            {"t",   new Tuple<DeviceKeys, bool>(DeviceKeys.T, false) },
+            {"T",   new Tuple<DeviceKeys, bool>(DeviceKeys.T, true) },
+            {"u",   new Tuple<DeviceKeys, bool>(DeviceKeys.U, false) },
+            {"U",   new Tuple<DeviceKeys, bool>(DeviceKeys.U, true) },
+            {"v",   new Tuple<DeviceKeys, bool>(DeviceKeys.V, false) },
+            {"V",   new Tuple<DeviceKeys, bool>(DeviceKeys.V, true) },
+            {"w",   new Tuple<DeviceKeys, bool>(DeviceKeys.W, false) },
+            {"W",   new Tuple<DeviceKeys, bool>(DeviceKeys.W, true) },
+            {"x",   new Tuple<DeviceKeys, bool>(DeviceKeys.X, false) },
+            {"X",   new Tuple<DeviceKeys, bool>(DeviceKeys.X, true) },
+            {"y",   new Tuple<DeviceKeys, bool>(DeviceKeys.Y, false) },
+            {"Y",   new Tuple<DeviceKeys, bool>(DeviceKeys.Y, true) },
+            {"z",   new Tuple<DeviceKeys, bool>(DeviceKeys.Z, false) },
+            {"Z",   new Tuple<DeviceKeys, bool>(DeviceKeys.Z, true) },
 
-        }
+            {"1",       new Tuple<DeviceKeys, bool>(DeviceKeys.ONE, false) },
+            {"!",       new Tuple<DeviceKeys, bool>(DeviceKeys.ONE, true) },
+            {"2",       new Tuple<DeviceKeys, bool>(DeviceKeys.TWO, false) },
+            {"@",       new Tuple<DeviceKeys, bool>(DeviceKeys.TWO, true) },
+            {"3",       new Tuple<DeviceKeys, bool>(DeviceKeys.THREE, false) },
+            {"#",       new Tuple<DeviceKeys, bool>(DeviceKeys.THREE, true) },
+            {"4",       new Tuple<DeviceKeys, bool>(DeviceKeys.FOUR, false) },
+            {"$",       new Tuple<DeviceKeys, bool>(DeviceKeys.FOUR, true) },
+            {"5",       new Tuple<DeviceKeys, bool>(DeviceKeys.FIVE, false) },
+            {"%",       new Tuple<DeviceKeys, bool>(DeviceKeys.FIVE, true) },
+            {"6",       new Tuple<DeviceKeys, bool>(DeviceKeys.SIX, false) },
+            {"^",       new Tuple<DeviceKeys, bool>(DeviceKeys.SIX, true) },
+            {"7",       new Tuple<DeviceKeys, bool>(DeviceKeys.SEVEN, false) },
+            {"&",       new Tuple<DeviceKeys, bool>(DeviceKeys.SEVEN, true) },
+            {"8",       new Tuple<DeviceKeys, bool>(DeviceKeys.EIGHT, false) },
+            {"*",       new Tuple<DeviceKeys, bool>(DeviceKeys.EIGHT, true) },
+            {"9",       new Tuple<DeviceKeys, bool>(DeviceKeys.NINE, false) },
+            {"(",       new Tuple<DeviceKeys, bool>(DeviceKeys.NINE, true) },
+            {"0",       new Tuple<DeviceKeys, bool>(DeviceKeys.ZERO, false) },
+            {")",       new Tuple<DeviceKeys, bool>(DeviceKeys.ZERO, true) },
+            {"-",       new Tuple<DeviceKeys, bool>(DeviceKeys.MINUS, false) },
+            {"_",       new Tuple<DeviceKeys, bool>(DeviceKeys.MINUS, true) },
+            {"=",       new Tuple<DeviceKeys, bool>(DeviceKeys.EQUALS, false) },
+            {"+",       new Tuple<DeviceKeys, bool>(DeviceKeys.EQUALS, true) },
+            {"[",       new Tuple<DeviceKeys, bool>(DeviceKeys.OPEN_BRACKET, false) },
+            {"{",       new Tuple<DeviceKeys, bool>(DeviceKeys.OPEN_BRACKET, true) },
+            {"]",       new Tuple<DeviceKeys, bool>(DeviceKeys.CLOSE_BRACKET, false) },
+            {"}",       new Tuple<DeviceKeys, bool>(DeviceKeys.CLOSE_BRACKET, true) },
+            {"\\",      new Tuple<DeviceKeys, bool>(DeviceKeys.BACKSLASH, false) },
+            {"|",       new Tuple<DeviceKeys, bool>(DeviceKeys.BACKSLASH, true) },
+            {";",       new Tuple<DeviceKeys, bool>(DeviceKeys.SEMICOLON, false) },
+            {":",       new Tuple<DeviceKeys, bool>(DeviceKeys.SEMICOLON, true) },
+            {"'",       new Tuple<DeviceKeys, bool>(DeviceKeys.APOSTROPHE, false) },
+            {"\"",      new Tuple<DeviceKeys, bool>(DeviceKeys.APOSTROPHE, true) },
+            {",",       new Tuple<DeviceKeys, bool>(DeviceKeys.COMMA, false) },
+            {"<",       new Tuple<DeviceKeys, bool>(DeviceKeys.COMMA, true) },
+            {".",       new Tuple<DeviceKeys, bool>(DeviceKeys.PERIOD, false) },
+            {">",       new Tuple<DeviceKeys, bool>(DeviceKeys.PERIOD, true) },
+            {"/",       new Tuple<DeviceKeys, bool>(DeviceKeys.FORWARD_SLASH, false) },
+            {"?",       new Tuple<DeviceKeys, bool>(DeviceKeys.FORWARD_SLASH, true) },
+            {"`",       new Tuple<DeviceKeys, bool>(DeviceKeys.TILDE, false) },
+            {"~",       new Tuple<DeviceKeys, bool>(DeviceKeys.TILDE, true) },
+            {"TAB",     new Tuple<DeviceKeys, bool>( DeviceKeys.TAB , false) },
+            {"BACKTAB", new Tuple<DeviceKeys, bool>( DeviceKeys.TAB , true) },
 
-        public bool IsShifted(string keybind)
-        {
-            if ("QWERTYUIOPASDFGHJKLZXCVBNM<>?:\"{}|~!@#$%^&*()_+".Contains(keybind) || keybind == "BACKTAB")
-                return true;
-            else return false;
-        }
+            {"SPACE",       new Tuple<DeviceKeys, bool>( DeviceKeys.SPACE , true) },
+            {"UP",          new Tuple<DeviceKeys, bool>( DeviceKeys.ARROW_UP , true) },
+            {"DOWN",        new Tuple<DeviceKeys, bool>( DeviceKeys.ARROW_DOWN , true) },
+            {"LEFT",        new Tuple<DeviceKeys, bool>( DeviceKeys.ARROW_LEFT , true) },
+            {"RIGHT",       new Tuple<DeviceKeys, bool>( DeviceKeys.ARROW_RIGHT , true) },
+            {"NPAGE",       new Tuple<DeviceKeys, bool>( DeviceKeys.PAGE_DOWN , true) },
+            {"PPAGE",       new Tuple<DeviceKeys, bool>( DeviceKeys.PAGE_UP , true) },
+            {"ESC",         new Tuple<DeviceKeys, bool>( DeviceKeys.ESC , true) },
+            {"BACKSPACE",   new Tuple<DeviceKeys, bool>( DeviceKeys.BACKSPACE , true) },
+            {"HOME",        new Tuple<DeviceKeys, bool>( DeviceKeys.HOME , true) },
+            {"BREAK",       new Tuple<DeviceKeys, bool>( DeviceKeys.PAUSE_BREAK , true) },
+            {"END",         new Tuple<DeviceKeys, bool>( DeviceKeys.END , true) },
+            {"RETURN",      new Tuple<DeviceKeys, bool>( DeviceKeys.ENTER , true) },
+            {"F1",          new Tuple<DeviceKeys, bool>( DeviceKeys.F1 , true) },
+            {"F2",          new Tuple<DeviceKeys, bool>( DeviceKeys.F2 , true) },
+            {"F3",          new Tuple<DeviceKeys, bool>( DeviceKeys.F3 , true) },
+            {"F4",          new Tuple<DeviceKeys, bool>( DeviceKeys.F4 , true) },
+            {"F5",          new Tuple<DeviceKeys, bool>( DeviceKeys.F5 , true) },
+            {"F6",          new Tuple<DeviceKeys, bool>( DeviceKeys.F6 , true) },
+            {"F7",          new Tuple<DeviceKeys, bool>( DeviceKeys.F7 , true) },
+            {"F8",          new Tuple<DeviceKeys, bool>( DeviceKeys.F8 , true) },
+            {"F9",          new Tuple<DeviceKeys, bool>( DeviceKeys.F9 , true) },
+            {"F10",         new Tuple<DeviceKeys, bool>( DeviceKeys.F10 , true) },
+            {"F11",         new Tuple<DeviceKeys, bool>( DeviceKeys.F11 , true) },
+            {"F12",         new Tuple<DeviceKeys, bool>( DeviceKeys.F12 , true) }
+        };
 
         public Dictionary<string,List<DeviceKeys>> GetContextKeybinds(string context)
         {
@@ -227,23 +169,28 @@ namespace Aurora.Profiles.Cataclysm_DDA
             keybinds = new Dictionary<string, Dictionary<string, List<DeviceKeys>>>();
             foreach (CataRawKeyAction action in binds.catabinds)
                 foreach(CataRawKeyBinds keybind in action.bindings)
-                    if (keybind.input_method == "keyboard")
+                    if (keybind.input_method == "keyboard") // ignore everything but keyboard binds
                     {
-                        string keyCategory = action.category;
-                        string thisKey = keybind.key.First();
+                        string keyCategory = action.category; // input context
+                        Tuple<DeviceKeys, bool> thisKey;
 
-                        if (IsShifted(thisKey))
-                            keyCategory = keyCategory + "_SHIFT";
+                        if (ToAurora.TryGetValue(keybind.key.First(), out thisKey))
+                        {
+                            if (thisKey.Item2) // is this key a shifted one
+                                keyCategory = keyCategory + "_SHIFT";
 
-                        if (!(keybinds.ContainsKey(keyCategory)))
-                            keybinds.Add(keyCategory, new Dictionary<string, List<DeviceKeys>>());
-                        if(!(keybinds[keyCategory].ContainsKey(action.id)))
-                            keybinds[keyCategory].Add(action.id, new List<DeviceKeys>());
+                            if (!keybinds.ContainsKey(keyCategory)) // dictionaries don't like having duplicates put into them
+                                keybinds.Add(keyCategory, new Dictionary<string, List<DeviceKeys>>());
+                            if (!keybinds[keyCategory].ContainsKey(action.id))
+                                keybinds[keyCategory].Add(action.id, new List<DeviceKeys>());
 
-                        keybinds[keyCategory][action.id].Add(ToAurora(thisKey));
+                            keybinds[keyCategory][action.id].Add(thisKey.Item1);
+                        }
+                        else
+                        {
+                            Global.logger.Error("Cataclysm Profile: Unrecognized key name:" + keybind.key.First());
+                        }
                     }
         }
-
-
     }
 }
