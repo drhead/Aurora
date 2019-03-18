@@ -429,8 +429,12 @@
     </Compile>
     <Compile Include="Profiles\Cataclysm DDA\CataclysmFileReader.cs" />
     <Compile Include="Profiles\Cataclysm DDA\CataclysmUtility.cs" />
+    <Compile Include="Profiles\Cataclysm DDA\FileReaders\ColorFileReader.cs" />
     <Compile Include="Profiles\Cataclysm DDA\FileReaders\KeybindsFileReader.cs" />
     <Compile Include="Profiles\Cataclysm DDA\FileReaders\StateFileReader.cs" />
+    <Compile Include="Profiles\Cataclysm DDA\GSI\Nodes\ColorNode.cs" />
+    <Compile Include="Profiles\Cataclysm DDA\GSI\Nodes\KeyContextNode.cs" />
+    <Compile Include="Profiles\Cataclysm DDA\GSI\Nodes\ProviderNode.cs" />
     <Compile Include="Profiles\CloneHero\Control_CloneHero.xaml.cs">
       <DependentUpon>Control_CloneHero.xaml</DependentUpon>
     </Compile>

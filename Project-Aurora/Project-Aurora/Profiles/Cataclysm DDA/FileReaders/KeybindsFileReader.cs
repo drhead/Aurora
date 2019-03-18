@@ -131,31 +131,31 @@ namespace Aurora.Profiles.Cataclysm_DDA.FileReaders
             {"TAB",     new Tuple<DeviceKeys, bool>( DeviceKeys.TAB , false) },
             {"BACKTAB", new Tuple<DeviceKeys, bool>( DeviceKeys.TAB , true) },
 
-            {"SPACE",       new Tuple<DeviceKeys, bool>( DeviceKeys.SPACE , true) },
-            {"UP",          new Tuple<DeviceKeys, bool>( DeviceKeys.ARROW_UP , true) },
-            {"DOWN",        new Tuple<DeviceKeys, bool>( DeviceKeys.ARROW_DOWN , true) },
-            {"LEFT",        new Tuple<DeviceKeys, bool>( DeviceKeys.ARROW_LEFT , true) },
-            {"RIGHT",       new Tuple<DeviceKeys, bool>( DeviceKeys.ARROW_RIGHT , true) },
-            {"NPAGE",       new Tuple<DeviceKeys, bool>( DeviceKeys.PAGE_DOWN , true) },
-            {"PPAGE",       new Tuple<DeviceKeys, bool>( DeviceKeys.PAGE_UP , true) },
-            {"ESC",         new Tuple<DeviceKeys, bool>( DeviceKeys.ESC , true) },
-            {"BACKSPACE",   new Tuple<DeviceKeys, bool>( DeviceKeys.BACKSPACE , true) },
-            {"HOME",        new Tuple<DeviceKeys, bool>( DeviceKeys.HOME , true) },
-            {"BREAK",       new Tuple<DeviceKeys, bool>( DeviceKeys.PAUSE_BREAK , true) },
-            {"END",         new Tuple<DeviceKeys, bool>( DeviceKeys.END , true) },
-            {"RETURN",      new Tuple<DeviceKeys, bool>( DeviceKeys.ENTER , true) },
-            {"F1",          new Tuple<DeviceKeys, bool>( DeviceKeys.F1 , true) },
-            {"F2",          new Tuple<DeviceKeys, bool>( DeviceKeys.F2 , true) },
-            {"F3",          new Tuple<DeviceKeys, bool>( DeviceKeys.F3 , true) },
-            {"F4",          new Tuple<DeviceKeys, bool>( DeviceKeys.F4 , true) },
-            {"F5",          new Tuple<DeviceKeys, bool>( DeviceKeys.F5 , true) },
-            {"F6",          new Tuple<DeviceKeys, bool>( DeviceKeys.F6 , true) },
-            {"F7",          new Tuple<DeviceKeys, bool>( DeviceKeys.F7 , true) },
-            {"F8",          new Tuple<DeviceKeys, bool>( DeviceKeys.F8 , true) },
-            {"F9",          new Tuple<DeviceKeys, bool>( DeviceKeys.F9 , true) },
-            {"F10",         new Tuple<DeviceKeys, bool>( DeviceKeys.F10 , true) },
-            {"F11",         new Tuple<DeviceKeys, bool>( DeviceKeys.F11 , true) },
-            {"F12",         new Tuple<DeviceKeys, bool>( DeviceKeys.F12 , true) }
+            {"SPACE",       new Tuple<DeviceKeys, bool>( DeviceKeys.SPACE , false) },
+            {"UP",          new Tuple<DeviceKeys, bool>( DeviceKeys.ARROW_UP , false) },
+            {"DOWN",        new Tuple<DeviceKeys, bool>( DeviceKeys.ARROW_DOWN , false) },
+            {"LEFT",        new Tuple<DeviceKeys, bool>( DeviceKeys.ARROW_LEFT , false) },
+            {"RIGHT",       new Tuple<DeviceKeys, bool>( DeviceKeys.ARROW_RIGHT , false) },
+            {"NPAGE",       new Tuple<DeviceKeys, bool>( DeviceKeys.PAGE_DOWN , false) },
+            {"PPAGE",       new Tuple<DeviceKeys, bool>( DeviceKeys.PAGE_UP , false) },
+            {"ESC",         new Tuple<DeviceKeys, bool>( DeviceKeys.ESC , false) },
+            {"BACKSPACE",   new Tuple<DeviceKeys, bool>( DeviceKeys.BACKSPACE , false) },
+            {"HOME",        new Tuple<DeviceKeys, bool>( DeviceKeys.HOME , false) },
+            {"BREAK",       new Tuple<DeviceKeys, bool>( DeviceKeys.PAUSE_BREAK , false) },
+            {"END",         new Tuple<DeviceKeys, bool>( DeviceKeys.END , false) },
+            {"RETURN",      new Tuple<DeviceKeys, bool>( DeviceKeys.ENTER , false) },
+            {"F1",          new Tuple<DeviceKeys, bool>( DeviceKeys.F1 , false) },
+            {"F2",          new Tuple<DeviceKeys, bool>( DeviceKeys.F2 , false) },
+            {"F3",          new Tuple<DeviceKeys, bool>( DeviceKeys.F3 , false) },
+            {"F4",          new Tuple<DeviceKeys, bool>( DeviceKeys.F4 , false) },
+            {"F5",          new Tuple<DeviceKeys, bool>( DeviceKeys.F5 , false) },
+            {"F6",          new Tuple<DeviceKeys, bool>( DeviceKeys.F6 , false) },
+            {"F7",          new Tuple<DeviceKeys, bool>( DeviceKeys.F7 , false) },
+            {"F8",          new Tuple<DeviceKeys, bool>( DeviceKeys.F8 , false) },
+            {"F9",          new Tuple<DeviceKeys, bool>( DeviceKeys.F9 , false) },
+            {"F10",         new Tuple<DeviceKeys, bool>( DeviceKeys.F10 , false) },
+            {"F11",         new Tuple<DeviceKeys, bool>( DeviceKeys.F11 , false) },
+            {"F12",         new Tuple<DeviceKeys, bool>( DeviceKeys.F12 , false) }
         };
 
         public Dictionary<string, List<DeviceKeys>> GetContextKeybinds(string context)
@@ -197,7 +197,6 @@ namespace Aurora.Profiles.Cataclysm_DDA.FileReaders
 
     class KeybindsFileReader : CataFileReader
     {
-        fileObject = new CataclysmKeybinds();
 
         public KeybindsFileReader(string filepath) : base(filepath) { }
 
@@ -206,6 +205,7 @@ namespace Aurora.Profiles.Cataclysm_DDA.FileReaders
             fileContent = "{\"catabinds\": " + fileContent + "}";
 
             CataBindsHolder fileObject_t = JsonConvert.DeserializeObject<CataBindsHolder>(fileContent);
+            fileObject = new CataclysmKeybinds();
             fileObject.UpdateBinds(fileObject_t);
             return true;
         }

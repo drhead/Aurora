@@ -11,8 +11,5 @@ namespace Aurora.Profiles.Cataclysm_DDA.GSI.Nodes
     {
         public CataclysmKeybinds keybinds;
         // true for text input, false otherwise
-        public bool inputMode;
-        public string inputContext = "default";
-        public string menuContext = "default";
     }
 }

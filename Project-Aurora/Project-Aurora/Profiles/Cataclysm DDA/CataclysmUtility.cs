@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Aurora.Profiles.Cataclysm_DDA
 {
-    class CataclysmUtility
+    public class CataclysmUtility
     {
         public Color c_black = Color.FromArgb(0, 0, 0);
         public Color c_red = Color.FromArgb(255, 0, 0);
@@ -30,6 +30,49 @@ namespace Aurora.Profiles.Cataclysm_DDA
         public Color c_lcyan = Color.FromArgb(0, 240, 255);
         public Color c_white = Color.FromArgb(255,255,255);
 
+        public enum CataColor
+        {
+            Black,
+            DGray,
+            Gray,
+            White,
 
+            Red,
+            Green,
+            Blue,
+            LRed,
+            LGreen,
+            LBlue,
+
+            Cyan,
+            Magenta,
+            Yellow,
+            LCyan,
+            LMagenta,
+            Brown
+        }
+
+        public static Dictionary<string, CataColor> ToColorEnum = new Dictionary<string, CataColor>()
+        {
+            { "c_black", CataColor.Black },
+            { "c_dark_gray", CataColor.DGray },
+            { "c_light_gray", CataColor.Gray },
+            { "c_white", CataColor.White },
+
+            { "c_red", CataColor.Red },
+            { "c_green", CataColor.Green },
+            { "c_blue", CataColor.Blue },
+            { "c_light_red", CataColor.LRed },
+            { "c_light_green", CataColor.LGreen },
+            { "c_light_blue", CataColor.LBlue },
+
+            { "c_cyan", CataColor.Cyan },
+            { "c_magenta", CataColor.Magenta },
+            { "c_yellow", CataColor.Yellow },
+            { "c_light_cyan", CataColor.LCyan },
+            { "c_light_magenta", CataColor.LMagenta },
+            { "c_brown", CataColor.Brown }
+        };
     }
+    
 }

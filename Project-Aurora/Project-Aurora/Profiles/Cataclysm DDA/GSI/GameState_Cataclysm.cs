@@ -10,17 +10,53 @@ namespace Aurora.Profiles.Cataclysm_DDA.GSI
     public class GameState_Cataclysm : GameState<GameState_Cataclysm>
     {
         //private Player_Cataclysm player;
-        private KeybindsNode keybinds;
-        private PlayerNode player;
+        private ProviderNode _Provider;
+        private KeybindsNode _Keybinds;
+        private KeyContextNode _KeyContext;
+        private PlayerNode _Player;
+        private ColorNode _Colors;
         //private Context_Cataclysm context;
 
+        
+
+
+
+        public ProviderNode Provider
+        {
+            get
+            {
+                if (_Provider == null)
+                    _Provider = new ProviderNode(_ParsedData["provider"]?.ToString() ?? "");
+                return _Provider;
+            }
+        }
+
+        public KeyContextNode KeyContext
+        {
+            get
+            {
+                if (_KeyContext == null)
+                    _KeyContext = new KeyContextNode(_ParsedData["keybinds"]?.ToString() ?? "");
+                return _KeyContext;
+            }
+        }
         public KeybindsNode Keybinds
         {
             get
             {
-                if (keybinds == null)
-                    keybinds = new KeybindsNode();
-                return keybinds;
+                if (_Keybinds == null)
+                    _Keybinds = new KeybindsNode();
+                return _Keybinds;
+            }
+        }
+
+        public ColorNode Colors
+        {
+            get
+            {
+                if (_Colors == null)
+                    _Colors = new ColorNode();
+                return _Colors;
             }
         }
 
@@ -28,9 +64,9 @@ namespace Aurora.Profiles.Cataclysm_DDA.GSI
         {
             get
             {
-                if (player == null)
-                    player = new PlayerNode();
-                return player;
+                if (_Player == null)
+                    _Player = new PlayerNode(_ParsedData["player"]?.ToString() ?? "");
+                return _Player;
             }
         }
 

@@ -131,18 +131,18 @@ namespace Aurora.Profiles.Cataclysm_DDA.Layers
             Keys[] pressedKeys = Global.InputEvents.PressedKeys;
             try
             {
-                if (gamestate is GameState_Cataclysm && !(gamestate as GameState_Cataclysm).Keybinds.inputMode)
+                if (gamestate is GameState_Cataclysm && !(gamestate as GameState_Cataclysm).KeyContext.StringInput)
                 {
                     effectLayer.Fill(Color.Black);
                     Dictionary<string, List<DeviceKeys>> thisContext;
                     if (pressedKeys.Contains(Keys.LShiftKey) || pressedKeys.Contains(Keys.RShiftKey))
                         thisContext =
                             (gamestate as GameState_Cataclysm).Keybinds.keybinds.GetContextKeybinds(
-                                (gamestate as GameState_Cataclysm).Keybinds.inputContext + "_SHIFT");
+                                (gamestate as GameState_Cataclysm).KeyContext.InputContext + "_SHIFT");
                     else
                         thisContext =
                             (gamestate as GameState_Cataclysm).Keybinds.keybinds.GetContextKeybinds(
-                                (gamestate as GameState_Cataclysm).Keybinds.inputContext);
+                                (gamestate as GameState_Cataclysm).KeyContext.InputContext);
                     foreach (KeyValuePair<string, List<DeviceKeys>> action in thisContext)
                     {
                         foreach (DeviceKeys bind in action.Value)
