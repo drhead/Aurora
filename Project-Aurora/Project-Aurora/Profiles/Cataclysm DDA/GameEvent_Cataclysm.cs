@@ -13,6 +13,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Net;
+using System.Diagnostics;
 
 namespace Aurora.Profiles.Cataclysm_DDA
 {
@@ -22,6 +23,7 @@ namespace Aurora.Profiles.Cataclysm_DDA
         //private readonly Regex _configRegex;
         KeybindsFileReader keybinds;
         ColorFileReader color;
+        private Stopwatch stopwatch = new Stopwatch();
         static string configFolder = "C:\\Users\\Aaron\\Documents\\GitHub\\Cataclysm-DDA\\config";
         string dataPath_binds = System.IO.Path.Combine(configFolder, "keybindings.json");
         string dataPath_colors = System.IO.Path.Combine(configFolder, "base_colors.json");
@@ -38,7 +40,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
 
         public override void UpdateLights(EffectFrame frame)
         {
-            if (!((_game_state as GameState_Cataclysm).Provider.Name == "cataclysm"))
+            if (!stopwatch.IsRunning)
+                stopwatch.Start();
+            if (stopwatch.ElapsedMilliseconds > 1000)
             {
                 Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
                 IPAddress serv = IPAddress.Parse("127.0.0.1");
