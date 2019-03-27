@@ -549,7 +549,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                         _PercentType = PercentEffectType.Progressive,
                         _Sequence = new KeySequence( new DeviceKeys[]{DeviceKeys.F9,DeviceKeys.F10,DeviceKeys.F11,DeviceKeys.F12})
                     }
-                }),
+                }, new OverrideLogicBuilder()
+                    .SetLookupTable("_PrimaryColor", new OverrideLookupTableBuilder<Color>()
+                        .AddEntry(cu.c_yellow, new BooleanGSINumeric("Player/safe_mode",ComparisonOperator.EQ,5)))),
                 new Layer("Hunger", new SolidColorLayerHandler()
                 {
                     Properties = new LayerHandlerProperties()
