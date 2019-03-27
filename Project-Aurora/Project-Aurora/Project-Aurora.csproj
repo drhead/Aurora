@@ -428,6 +428,13 @@
       <DependentUpon>Control_Battlefield1.xaml</DependentUpon>
     </Compile>
     <Compile Include="Profiles\Cataclysm DDA\CataclysmFileReader.cs" />
+    <Compile Include="Profiles\Cataclysm DDA\CataclysmUtility.cs" />
+    <Compile Include="Profiles\Cataclysm DDA\FileReaders\ColorFileReader.cs" />
+    <Compile Include="Profiles\Cataclysm DDA\FileReaders\KeybindsFileReader.cs" />
+    <Compile Include="Profiles\Cataclysm DDA\FileReaders\StateFileReader.cs" />
+    <Compile Include="Profiles\Cataclysm DDA\GSI\Nodes\ColorNode.cs" />
+    <Compile Include="Profiles\Cataclysm DDA\GSI\Nodes\KeyContextNode.cs" />
+    <Compile Include="Profiles\Cataclysm DDA\GSI\Nodes\ProviderNode.cs" />
     <Compile Include="Profiles\CloneHero\Control_CloneHero.xaml.cs">
       <DependentUpon>Control_CloneHero.xaml</DependentUpon>
     </Compile>
@@ -456,8 +463,8 @@
     <Compile Include="Profiles\Resident Evil 2\GSI\GameState_ResidentEvil2.cs" />
     <Compile Include="Profiles\Resident Evil 2\GSI\Nodes\Player.cs" />
     <Compile Include="Profiles\Cataclysm DDA\CataclysmApplication.cs" />
-    <Compile Include="Profiles\Cataclysm DDA\CataclysmKeybinds.cs" />
-    <Compile Include="Profiles\Cataclysm DDA\CataclysmState.cs" />
+    <None Include="Profiles\Cataclysm DDA\CataclysmKeybinds.cs" />
+    <None Include="Profiles\Cataclysm DDA\CataclysmState.cs" />
     <Compile Include="Profiles\Cataclysm DDA\GameEvent_Cataclysm.cs" />
     <Compile Include="Profiles\Cataclysm DDA\GSI\GameState_Cataclysm.cs" />
     <Compile Include="Profiles\Cataclysm DDA\GSI\Nodes\KeybindsNode.cs" />
@@ -2223,7 +2230,6 @@
     <Resource Include="Resources\AddProfile_Icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Profiles\Cataclysm DDA\FileReaders\" />
     <Folder Include="Profiles\Subnautica\Layers\" />
     <Folder Include="Properties\DataSources\" />
   </ItemGroup>

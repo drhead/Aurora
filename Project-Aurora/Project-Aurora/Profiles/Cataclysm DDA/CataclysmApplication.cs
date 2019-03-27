@@ -13,9 +13,8 @@ namespace Aurora.Profiles.Cataclysm_DDA
         public CataclysmApplication() : base(new LightEventConfig
         {
             Name = "Cataclysm: Dark Days Ahead",
-            ID = "Cataclysm",
-            ProcessNames = new[] { "cataclysm-tiles.exe", "Cataclysm-.exe" },
-            SettingsType = typeof(Settings.FirstTimeApplicationSettings),
+            ID = "cataclysm",
+            ProcessNames = new[] { "cataclysm-tiles.exe", "Cataclysm-.exe", "Cataclysm.exe" },
             ProfileType = typeof(CataclysmProfile),
             OverviewControlType = typeof(Control_GenericApplication),
             GameStateType = typeof(GSI.GameState_Cataclysm),
