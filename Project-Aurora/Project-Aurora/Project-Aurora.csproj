@@ -428,7 +428,6 @@
       <DependentUpon>Control_Battlefield1.xaml</DependentUpon>
     </Compile>
     <Compile Include="Profiles\Cataclysm DDA\CataclysmFileReader.cs" />
-    <Compile Include="Profiles\Cataclysm DDA\FileReaders\KeybindsFileReader.cs" />
     <Compile Include="Profiles\CloneHero\Control_CloneHero.xaml.cs">
       <DependentUpon>Control_CloneHero.xaml</DependentUpon>
     </Compile>
@@ -2224,6 +2223,7 @@
     <Resource Include="Resources\AddProfile_Icon.png" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Profiles\Cataclysm DDA\FileReaders\" />
     <Folder Include="Profiles\Subnautica\Layers\" />
     <Folder Include="Properties\DataSources\" />
   </ItemGroup>
