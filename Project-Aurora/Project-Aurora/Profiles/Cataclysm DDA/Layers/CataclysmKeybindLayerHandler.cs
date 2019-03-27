@@ -28,6 +28,10 @@ namespace Aurora.Profiles.Cataclysm_DDA.Layers
 
     public class CataclysmKeybindLayerHandlerProperties : LayerHandlerProperties<CataclysmKeybindLayerHandlerProperties>
     {
+        // set of keys that should be shown regardless of shift
+
+
+
         public bool? _DimBackground { get; set; }
 
         [JsonIgnore]
@@ -124,30 +128,78 @@ namespace Aurora.Profiles.Cataclysm_DDA.Layers
         //    return new Control_CataclysmKeybindLayer(this);
         //}
 
+        private readonly HashSet<DeviceKeys> Shiftless = new HashSet<DeviceKeys>() {
+            DeviceKeys.ARROW_UP,
+            DeviceKeys.ARROW_DOWN,
+            DeviceKeys.ARROW_LEFT,
+            DeviceKeys.ARROW_RIGHT,
+            DeviceKeys.SPACE,
+            DeviceKeys.PAGE_DOWN,
+            DeviceKeys.PAGE_UP,
+            DeviceKeys.ESC,
+            DeviceKeys.BACKSPACE,
+            DeviceKeys.HOME,
+            DeviceKeys.PAUSE_BREAK,
+            DeviceKeys.END,
+            DeviceKeys.ENTER,
+            DeviceKeys.F1,
+            DeviceKeys.F2,
+            DeviceKeys.F3,
+            DeviceKeys.F4,
+            DeviceKeys.F5,
+            DeviceKeys.F6,
+            DeviceKeys.F7,
+            DeviceKeys.F8,
+            DeviceKeys.F9,
+            DeviceKeys.F10,
+            DeviceKeys.F11,
+            DeviceKeys.F12 };
+
+        private readonly HashSet<string> Contexts_NumPad = new HashSet<string>()
+        {
+            "INVENTORY"
+        };
+
+        private Dictionary<DeviceKeys, DeviceKeys> ToNumpad = new Dictionary<DeviceKeys, DeviceKeys>()
+        {
+            { DeviceKeys.ONE, DeviceKeys.NUM_ONE },
+            { DeviceKeys.TWO, DeviceKeys.NUM_TWO },
+            { DeviceKeys.THREE, DeviceKeys.NUM_THREE },
+            { DeviceKeys.FOUR, DeviceKeys.NUM_FOUR },
+            { DeviceKeys.FIVE, DeviceKeys.NUM_FIVE },
+            { DeviceKeys.SIX, DeviceKeys.NUM_SIX },
+            { DeviceKeys.SEVEN, DeviceKeys.NUM_SEVEN },
+            { DeviceKeys.EIGHT, DeviceKeys.NUM_EIGHT },
+            { DeviceKeys.NINE, DeviceKeys.NUM_NINE },
+            { DeviceKeys.ZERO, DeviceKeys.NUM_ZERO },
+            { DeviceKeys.NUM_ASTERISK, DeviceKeys.NUM_ASTERISK },
+            { DeviceKeys.FORWARD_SLASH, DeviceKeys.NUM_SLASH },
+            { DeviceKeys.MINUS, DeviceKeys.NUM_MINUS },
+            { DeviceKeys.PERIOD, DeviceKeys.NUM_PERIOD },
+            { DeviceKeys.ENTER, DeviceKeys.NUM_ENTER }
+            // NOTE: Handle the special case of NUM_PLUS.
+        };
+
         public override EffectLayer Render(IGameState gamestate)
         {
             EffectLayer effectLayer = new EffectLayer("Cataclysm Keybinds");
             List<DeviceKeys> affectedKeys = new List<DeviceKeys>();
             Keys[] pressedKeys = Global.InputEvents.PressedKeys;
+            bool shift = false;
             try
             {
                 if (gamestate is GameState_Cataclysm && !(gamestate as GameState_Cataclysm).KeyContext.StringInput)
                 {
-                    effectLayer.Fill(Color.Black);
-                    Dictionary<string, List<DeviceKeys>> thisContext;
+                    //effectLayer.Fill(Color.Black);
                     if (pressedKeys.Contains(Keys.LShiftKey) || pressedKeys.Contains(Keys.RShiftKey))
-                        thisContext =
-                            (gamestate as GameState_Cataclysm).Keybinds.keybinds.GetContextKeybinds(
-                                (gamestate as GameState_Cataclysm).KeyContext.InputContext + "_SHIFT");
-                    else
-                        thisContext =
-                            (gamestate as GameState_Cataclysm).Keybinds.keybinds.GetContextKeybinds(
-                                (gamestate as GameState_Cataclysm).KeyContext.InputContext);
-                    foreach (KeyValuePair<string, List<DeviceKeys>> action in thisContext)
+                        shift = true;
+
+                    foreach (KeyValuePair<string, List<Tuple<DeviceKeys, bool>>> action in (gamestate as GameState_Cataclysm).KeyContext.KeyBinds)
                     {
-                        foreach (DeviceKeys bind in action.Value)
+                        foreach (Tuple<DeviceKeys, bool> bind in action.Value)
                         {
-                            affectedKeys.Add(bind);
+                            if (bind.Item2 == shift || Shiftless.Contains(bind.Item1))
+                                affectedKeys.Add(bind.Item1);
                         }
                     }
 

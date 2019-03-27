@@ -14,12 +14,20 @@ using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Net;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Aurora.Profiles.Cataclysm_DDA
 {
     public class GameEvent_Cataclysm : LightEvent
     {
-        private bool isInitialized = false;
+        private static ManualResetEvent connectDone =
+            new ManualResetEvent(false);
+        private static ManualResetEvent sendDone =
+            new ManualResetEvent(false);
+        private static ManualResetEvent receiveDone =
+            new ManualResetEvent(false);
+
+        private static bool isInitialized = false;
         //private readonly Regex _configRegex;
         KeybindsFileReader keybinds;
         ColorFileReader color;
@@ -30,8 +38,6 @@ namespace Aurora.Profiles.Cataclysm_DDA
 
         public GameEvent_Cataclysm() : base()
         {
-            //_configRegex = new Regex("\\[Artemis\\](.+?)\\[", RegexOptions.Singleline);
-
             if (File.Exists(dataPath_binds))
                 keybinds = new KeybindsFileReader(dataPath_binds);
             if (File.Exists(dataPath_colors))
@@ -40,15 +46,23 @@ namespace Aurora.Profiles.Cataclysm_DDA
 
         public override void UpdateLights(EffectFrame frame)
         {
-            if (!stopwatch.IsRunning)
-                stopwatch.Start();
-            if (stopwatch.ElapsedMilliseconds > 1000)
+            if (isInitialized == false)
             {
-                Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-                IPAddress serv = IPAddress.Parse("127.0.0.1");
-                IPEndPoint end = new IPEndPoint(serv, 3441);
-                byte[] payload = Encoding.ASCII.GetBytes("gsi 9088");
-                s.SendTo(payload, end);
+                try
+                {
+                    Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                    IPAddress serv = IPAddress.Parse("127.0.0.1");
+                    IPEndPoint end = new IPEndPoint(serv, 3441);
+
+                    s.BeginConnect(end, new AsyncCallback(ConnectCallback), s);
+
+                    isInitialized = true;
+                } catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+
+
             }
             Queue<EffectLayer> layers = new Queue<EffectLayer>();
 
@@ -71,6 +85,23 @@ namespace Aurora.Profiles.Cataclysm_DDA
             this.Application.UpdateEffectScripts(layers);
 
             frame.AddLayers(layers.ToArray());
+        }
+
+        private static void ConnectCallback(IAsyncResult ar)
+        {
+            try
+            {
+                Socket client = (Socket)ar.AsyncState;
+                client.EndConnect(ar);
+                IPAddress serv = IPAddress.Parse("127.0.0.1");
+                IPEndPoint end = new IPEndPoint(serv, 3441);
+                client.SendTo(Encoding.ASCII.GetBytes("gsi 9088;"), end);
+            } catch (Exception e)
+            {
+                isInitialized = false;
+                Console.WriteLine(e);
+            }
+            
         }
 
         public override void ResetGameState()
