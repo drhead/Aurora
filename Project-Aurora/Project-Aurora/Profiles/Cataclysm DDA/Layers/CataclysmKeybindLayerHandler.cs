@@ -186,6 +186,7 @@ namespace Aurora.Profiles.Cataclysm_DDA.Layers
             List<DeviceKeys> affectedKeys = new List<DeviceKeys>();
             Keys[] pressedKeys = Global.InputEvents.PressedKeys;
             bool shift = false;
+            bool show_numpad = true;
             try
             {
                 if (gamestate is GameState_Cataclysm && !(gamestate as GameState_Cataclysm).KeyContext.StringInput)
@@ -198,8 +199,13 @@ namespace Aurora.Profiles.Cataclysm_DDA.Layers
                     {
                         foreach (Tuple<DeviceKeys, bool> bind in action.Value)
                         {
+                            DeviceKeys num;
                             if (bind.Item2 == shift || Shiftless.Contains(bind.Item1))
                                 affectedKeys.Add(bind.Item1);
+                            if (ToNumpad.TryGetValue(bind.Item1, out num) && bind.Item2 == false && show_numpad)
+                                affectedKeys.Add(num);
+                            if (bind.Item1 == DeviceKeys.EQUALS && bind.Item2 == true && show_numpad)
+                                affectedKeys.Add(DeviceKeys.NUM_PLUS);
                         }
                     }
 
