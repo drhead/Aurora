@@ -67,59 +67,7 @@ namespace Aurora.Settings.Layers
                     if (!File.Exists(Properties.ImagePath))
                         throw new FileNotFoundException("Could not find file specified for layer: " + Properties.ImagePath);
 
-                    Bitmap loadimg = new Bitmap(Properties.ImagePath);
-                    // expensive function but it should only get run when the image is loaded
-                    // iterate over frames for animated GIFs, regular images should just do one loop
-                    /*for (int z = 0; z < loadimg.GetFrameCount(FrameDimension.Time); z++)
-                    {
-                        loadimg.SelectActiveFrame(FrameDimension.Time, z);
-                        for (int y = 0; y < loadimg.Height; y++)
-                            for (int x = 0; x < loadimg.Width; x++)
-                            {
-                                Color cur = loadimg.GetPixel(x, y);
-                                // if the pixel is not grayscale it will be treated as grayscale by average pixel value
-                                int gray = (cur.R + cur.G + cur.B) / 3;
-                                Color set = Color.FromArgb(
-                                    
-                                    (Properties.PrimaryColor.R * gray + Properties.SecondaryColor.R * (255 - gray)) / 255,
-                                    (Properties.PrimaryColor.G * gray + Properties.SecondaryColor.G * (255 - gray)) / 255,
-                                    (Properties.PrimaryColor.B * gray + Properties.SecondaryColor.B * (255 - gray)) / 255);
-                                loadimg.SetPixel(x, y, set);
-
-                            }
-                    }*/
                     _loaded_image = new Bitmap(Properties.ImagePath);
-
-
-                    try
-                    {
-                        PropertyItem palette = _loaded_image.GetPropertyItem(0x5102);
-                        BitmapData bitmapData;
-                        bitmapData = _loaded_image.LockBits(
-                            new Rectangle(0,0,_loaded_image.Width,_loaded_image.Height),
-                            ImageLockMode.ReadWrite,
-                            PixelFormat.)
-                        for (int i = 0; i < palette.Value.Length; i += 3)
-                        {
-                            int gray = (palette.Value[i] + palette.Value[i+1] + palette.Value[i+2]) / 3;
-                            palette.Value[i] = (byte)((Properties.PrimaryColor.R * gray + (Properties.SecondaryColor.R * (255 - gray))) / 255);
-                            palette.Value[i+1] = (byte)((Properties.PrimaryColor.G * gray + (Properties.SecondaryColor.G * (255 - gray))) / 255);
-                            palette.Value[i+2] = (byte)((Properties.PrimaryColor.B * gray + (Properties.SecondaryColor.B * (255 - gray))) / 255);
-                        }
-                        _loaded_image.SetPropertyItem(palette);
-                        MemoryStream stream = new MemoryStream();
-                        _loaded_image.Save(stream, ImageFormat.Gif);
-                        StreamReader.
-
-                        _loaded_image = new Bitmap(stream);
-
-                    } catch(Exception e) {
-
-                    }
-
-                    
-
-
                     _loaded_image_path = Properties.ImagePath;
                     _applied_primary = Properties.PrimaryColor;
                     _applied_secondary = Properties.SecondaryColor;
@@ -128,7 +76,15 @@ namespace Aurora.Settings.Layers
                     {
                         byte[] gifBytes = File.ReadAllBytes(Properties.ImagePath);
                         BitArray bit = new BitArray(new byte[] { gifBytes[10] });
-                        for(int i = 13; i < 13 + _loaded_image)
+                        int length = (int)Math.Pow(2, (gifBytes[10] & 0x07) + 1) * 3;
+                        for(int i = 13; i < 13 + length; i += 3)
+                        {
+                            int gray = (gifBytes[i] + gifBytes[i + 1] + gifBytes[i + 2]) / 3;
+                            gifBytes[i] = (byte)((Properties.PrimaryColor.R * gray + (Properties.SecondaryColor.R * (255 - gray))) / 255);
+                            gifBytes[i + 1] = (byte)((Properties.PrimaryColor.G * gray + (Properties.SecondaryColor.G * (255 - gray))) / 255);
+                            gifBytes[i + 2] = (byte)((Properties.PrimaryColor.B * gray + (Properties.SecondaryColor.B * (255 - gray))) / 255);
+                        }
+                        _loaded_image = new Bitmap(new MemoryStream(gifBytes));
                         ImageAnimator.Animate(_loaded_image, null);
                     }
                 }
