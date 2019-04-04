@@ -2,6 +2,7 @@
 using Aurora.Profiles;
 using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -17,8 +18,7 @@ namespace Aurora.Settings.Layers
     public class AdvancedImageLayerHandlerProperties : LayerHandlerProperties2Color<AdvancedImageLayerHandlerProperties>
     {
         public string _ImagePath { get; set; }
-        public Color _PrimaryColor { get; set; }
-        public Color _SecondaryColor { get; set; }
+
 
         [JsonIgnore]
         public string ImagePath { get { return Logic._ImagePath ?? _ImagePath; } }
@@ -37,12 +37,14 @@ namespace Aurora.Settings.Layers
     public class AdvancedImageLayerHandler : LayerHandler<AdvancedImageLayerHandlerProperties>
     {
         private EffectLayer temp_layer;
-        private System.Drawing.Image _loaded_image = null;
+        private Bitmap _loaded_image = null;
         private string _loaded_image_path = "";
+        private Color _applied_primary;
+        private Color _applied_secondary;
 
         public AdvancedImageLayerHandler()
         {
-            _ID = "Image";
+            _ID = "AdvancedImage";
         }
 
         protected override UserControl CreateControl()
@@ -57,16 +59,18 @@ namespace Aurora.Settings.Layers
             if (!String.IsNullOrWhiteSpace(Properties.ImagePath))
             {
 
-                if (!_loaded_image_path.Equals(Properties.ImagePath))
+                if (!_loaded_image_path.Equals(Properties.ImagePath) || 
+                    !_applied_primary.Equals(Properties.PrimaryColor) || 
+                    !_applied_secondary.Equals(Properties.SecondaryColor))
                 {
                     //Not loaded, load it!
                     if (!File.Exists(Properties.ImagePath))
                         throw new FileNotFoundException("Could not find file specified for layer: " + Properties.ImagePath);
 
                     Bitmap loadimg = new Bitmap(Properties.ImagePath);
-
+                    // expensive function but it should only get run when the image is loaded
                     // iterate over frames for animated GIFs, regular images should just do one loop
-                    for (int z = 0; z < loadimg.GetFrameCount(FrameDimension.Time); z++)
+                    /*for (int z = 0; z < loadimg.GetFrameCount(FrameDimension.Time); z++)
                     {
                         loadimg.SelectActiveFrame(FrameDimension.Time, z);
                         for (int y = 0; y < loadimg.Height; y++)
@@ -76,23 +80,55 @@ namespace Aurora.Settings.Layers
                                 // if the pixel is not grayscale it will be treated as grayscale by average pixel value
                                 int gray = (cur.R + cur.G + cur.B) / 3;
                                 Color set = Color.FromArgb(
-                                    cur.A,
-                                    (Properties._PrimaryColor.R * gray + Properties._SecondaryColor.R * (255 - gray)) / 255,
-                                    (Properties._PrimaryColor.G * gray + Properties._SecondaryColor.G * (255 - gray)) / 255,
-                                    (Properties._PrimaryColor.B * gray + Properties._SecondaryColor.B * (255 - gray)) / 255);
+                                    
+                                    (Properties.PrimaryColor.R * gray + Properties.SecondaryColor.R * (255 - gray)) / 255,
+                                    (Properties.PrimaryColor.G * gray + Properties.SecondaryColor.G * (255 - gray)) / 255,
+                                    (Properties.PrimaryColor.B * gray + Properties.SecondaryColor.B * (255 - gray)) / 255);
                                 loadimg.SetPixel(x, y, set);
+
                             }
+                    }*/
+                    _loaded_image = new Bitmap(Properties.ImagePath);
+
+
+                    try
+                    {
+                        PropertyItem palette = _loaded_image.GetPropertyItem(0x5102);
+                        BitmapData bitmapData;
+                        bitmapData = _loaded_image.LockBits(
+                            new Rectangle(0,0,_loaded_image.Width,_loaded_image.Height),
+                            ImageLockMode.ReadWrite,
+                            PixelFormat.)
+                        for (int i = 0; i < palette.Value.Length; i += 3)
+                        {
+                            int gray = (palette.Value[i] + palette.Value[i+1] + palette.Value[i+2]) / 3;
+                            palette.Value[i] = (byte)((Properties.PrimaryColor.R * gray + (Properties.SecondaryColor.R * (255 - gray))) / 255);
+                            palette.Value[i+1] = (byte)((Properties.PrimaryColor.G * gray + (Properties.SecondaryColor.G * (255 - gray))) / 255);
+                            palette.Value[i+2] = (byte)((Properties.PrimaryColor.B * gray + (Properties.SecondaryColor.B * (255 - gray))) / 255);
+                        }
+                        _loaded_image.SetPropertyItem(palette);
+                        MemoryStream stream = new MemoryStream();
+                        _loaded_image.Save(stream, ImageFormat.Gif);
+                        StreamReader.
+
+                        _loaded_image = new Bitmap(stream);
+
+                    } catch(Exception e) {
 
                     }
 
-                    _loaded_image = loadimg;
-                    _loaded_image_path = Properties.ImagePath;
-
                     
+
+
+                    _loaded_image_path = Properties.ImagePath;
+                    _applied_primary = Properties.PrimaryColor;
+                    _applied_secondary = Properties.SecondaryColor;
 
                     if (Properties.ImagePath.EndsWith(".gif") && ImageAnimator.CanAnimate(_loaded_image))
                     {
-
+                        byte[] gifBytes = File.ReadAllBytes(Properties.ImagePath);
+                        BitArray bit = new BitArray(new byte[] { gifBytes[10] });
+                        for(int i = 13; i < 13 + _loaded_image)
                         ImageAnimator.Animate(_loaded_image, null);
                     }
                 }

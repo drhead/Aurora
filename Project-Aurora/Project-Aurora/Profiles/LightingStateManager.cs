@@ -160,6 +160,7 @@ namespace Aurora.Profiles
                 new LayerHandlerEntry("Breathing", "Breathing Layer", typeof(BreathingLayerHandler)),
                 new LayerHandlerEntry("Blinking", "Blinking Layer", typeof(BlinkingLayerHandler)),
                 new LayerHandlerEntry("Image", "Image Layer", typeof(ImageLayerHandler)),
+                new LayerHandlerEntry("AdvancedImage", "Advanced Image Layer", typeof(AdvancedImageLayerHandler)),
                 new LayerHandlerEntry("Script", "Script Layer", typeof(ScriptLayerHandler)),
                 new LayerHandlerEntry("Percent", "Percent Effect Layer", typeof(PercentLayerHandler)),
                 new LayerHandlerEntry("PercentGradient", "Percent (Gradient) Effect Layer", typeof(PercentGradientLayerHandler)),

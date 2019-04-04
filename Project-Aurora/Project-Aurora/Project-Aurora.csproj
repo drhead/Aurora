@@ -617,6 +617,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Settings\Layers\AdvancedImageLayerHandler.cs" />
+    <Compile Include="Settings\Layers\Control_AdvancedImageLayer.xaml.cs">
+      <DependentUpon>Control_AdvancedImageLayer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Settings\Overrides\Logic\Boolean\Boolean_PeripheralInput.cs" />
     <Compile Include="Settings\Overrides\Logic\Control_BinaryOperationHolder.xaml.cs">
       <DependentUpon>Control_BinaryOperationHolder.xaml</DependentUpon>
@@ -1955,6 +1958,10 @@
     <Page Include="Profiles\XCOM\Control_XCOM.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Settings\Layers\Control_AdvancedImageLayer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Settings\Overrides\Logic\Boolean\Control_BooleanGSIBoolean.xaml">
       <SubType>Designer</SubType>
