@@ -75,7 +75,7 @@ namespace Aurora.Settings.Layers
                     if (Properties.ImagePath.EndsWith(".gif") && ImageAnimator.CanAnimate(_loaded_image))
                     {
                         byte[] gifBytes = File.ReadAllBytes(Properties.ImagePath);
-                        BitArray bit = new BitArray(new byte[] { gifBytes[10] });
+                        // read size of palette 
                         int length = (int)Math.Pow(2, (gifBytes[10] & 0x07) + 1) * 3;
                         for(int i = 13; i < 13 + length; i += 3)
                         {
