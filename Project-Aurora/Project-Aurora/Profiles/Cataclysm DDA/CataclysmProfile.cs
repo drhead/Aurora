@@ -34,7 +34,6 @@ namespace Aurora.Profiles.Cataclysm_DDA
 
     public class CataclysmProfile : ApplicationProfile
     {
-        CataclysmUtility cu = new CataclysmUtility();
         CataclysmProfileConds cc = new CataclysmProfileConds();
         public CataclysmProfile() : base()
         {
@@ -78,9 +77,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_red },{0.3f, cu.c_red },
-                                    {0.5f, cu.c_green },
-                                    {0.7f, cu.c_red },{1.0f, cu.c_red },
+                                    {0.0f, CataclysmUtility.c_red },{0.3f, CataclysmUtility.c_red },
+                                    {0.5f, CataclysmUtility.c_green },
+                                    {0.7f, CataclysmUtility.c_red },{1.0f, CataclysmUtility.c_red },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -91,9 +90,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_red },{0.3f, cu.c_red },
-                                    {0.5f, cu.c_yellow },
-                                    {0.7f, cu.c_red },{1.0f, cu.c_red },
+                                    {0.0f, CataclysmUtility.c_red },{0.3f, CataclysmUtility.c_red },
+                                    {0.5f, CataclysmUtility.c_yellow },
+                                    {0.7f, CataclysmUtility.c_red },{1.0f, CataclysmUtility.c_red },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -104,9 +103,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_red },{0.3f, cu.c_red },
-                                    {0.5f, cu.c_lred },
-                                    {0.7f, cu.c_red },{1.0f, cu.c_red },
+                                    {0.0f, CataclysmUtility.c_red },{0.3f, CataclysmUtility.c_red },
+                                    {0.5f, CataclysmUtility.c_lred },
+                                    {0.7f, CataclysmUtility.c_red },{1.0f, CataclysmUtility.c_red },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -117,9 +116,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_red },{0.3f, cu.c_red },
-                                    {0.5f, cu.c_red },
-                                    {0.7f, cu.c_red },{1.0f, cu.c_red },
+                                    {0.0f, CataclysmUtility.c_red },{0.3f, CataclysmUtility.c_red },
+                                    {0.5f, CataclysmUtility.c_red },
+                                    {0.7f, CataclysmUtility.c_red },{1.0f, CataclysmUtility.c_red },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -130,9 +129,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_lred },{0.3f, cu.c_lred },
-                                    {0.5f, cu.c_lblue },
-                                    {0.7f, cu.c_lred },{1.0f, cu.c_lred },
+                                    {0.0f, CataclysmUtility.c_lred },{0.3f, CataclysmUtility.c_lred },
+                                    {0.5f, CataclysmUtility.c_lblue },
+                                    {0.7f, CataclysmUtility.c_lred },{1.0f, CataclysmUtility.c_lred },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -143,9 +142,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_lred },{0.3f, cu.c_lred },
-                                    {0.5f, cu.c_green },
-                                    {0.7f, cu.c_lred },{1.0f, cu.c_lred },
+                                    {0.0f, CataclysmUtility.c_lred },{0.3f, CataclysmUtility.c_lred },
+                                    {0.5f, CataclysmUtility.c_green },
+                                    {0.7f, CataclysmUtility.c_lred },{1.0f, CataclysmUtility.c_lred },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -156,9 +155,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_lred },{0.3f, cu.c_lred },
-                                    {0.5f, cu.c_yellow },
-                                    {0.7f, cu.c_lred },{1.0f, cu.c_lred },
+                                    {0.0f, CataclysmUtility.c_lred },{0.3f, CataclysmUtility.c_lred },
+                                    {0.5f, CataclysmUtility.c_yellow },
+                                    {0.7f, CataclysmUtility.c_lred },{1.0f, CataclysmUtility.c_lred },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -169,9 +168,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_lred },{0.3f, cu.c_lred },
-                                    {0.5f, cu.c_lred },
-                                    {0.7f, cu.c_lred },{1.0f, cu.c_lred },
+                                    {0.0f, CataclysmUtility.c_lred },{0.3f, CataclysmUtility.c_lred },
+                                    {0.5f, CataclysmUtility.c_lred },
+                                    {0.7f, CataclysmUtility.c_lred },{1.0f, CataclysmUtility.c_lred },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -181,9 +180,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_lred },{0.3f, cu.c_lred },
-                                    {0.5f, cu.c_red },
-                                    {0.7f, cu.c_lred },{1.0f, cu.c_lred },
+                                    {0.0f, CataclysmUtility.c_lred },{0.3f, CataclysmUtility.c_lred },
+                                    {0.5f, CataclysmUtility.c_red },
+                                    {0.7f, CataclysmUtility.c_lred },{1.0f, CataclysmUtility.c_lred },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -194,9 +193,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_yellow },{0.3f, cu.c_yellow },
-                                    {0.5f, cu.c_cyan },
-                                    {0.7f, cu.c_yellow },{1.0f, cu.c_yellow },
+                                    {0.0f, CataclysmUtility.c_yellow },{0.3f, CataclysmUtility.c_yellow },
+                                    {0.5f, CataclysmUtility.c_cyan },
+                                    {0.7f, CataclysmUtility.c_yellow },{1.0f, CataclysmUtility.c_yellow },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -207,9 +206,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_yellow },{0.3f, cu.c_yellow },
-                                    {0.5f, cu.c_cyan },
-                                    {0.7f, cu.c_yellow },{1.0f, cu.c_yellow },
+                                    {0.0f, CataclysmUtility.c_yellow },{0.3f, CataclysmUtility.c_yellow },
+                                    {0.5f, CataclysmUtility.c_cyan },
+                                    {0.7f, CataclysmUtility.c_yellow },{1.0f, CataclysmUtility.c_yellow },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -220,9 +219,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_yellow },{0.3f, cu.c_yellow },
-                                    {0.5f, cu.c_lblue },
-                                    {0.7f, cu.c_yellow },{1.0f, cu.c_yellow },
+                                    {0.0f, CataclysmUtility.c_yellow },{0.3f, CataclysmUtility.c_yellow },
+                                    {0.5f, CataclysmUtility.c_lblue },
+                                    {0.7f, CataclysmUtility.c_yellow },{1.0f, CataclysmUtility.c_yellow },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -233,9 +232,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_yellow },{0.3f, cu.c_yellow },
-                                    {0.5f, cu.c_yellow },
-                                    {0.7f, cu.c_yellow },{1.0f, cu.c_yellow },
+                                    {0.0f, CataclysmUtility.c_yellow },{0.3f, CataclysmUtility.c_yellow },
+                                    {0.5f, CataclysmUtility.c_yellow },
+                                    {0.7f, CataclysmUtility.c_yellow },{1.0f, CataclysmUtility.c_yellow },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -245,9 +244,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_yellow },{0.3f, cu.c_yellow },
-                                    {0.5f, cu.c_lred },
-                                    {0.7f, cu.c_yellow },{1.0f, cu.c_yellow },
+                                    {0.0f, CataclysmUtility.c_yellow },{0.3f, CataclysmUtility.c_yellow },
+                                    {0.5f, CataclysmUtility.c_lred },
+                                    {0.7f, CataclysmUtility.c_yellow },{1.0f, CataclysmUtility.c_yellow },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -257,9 +256,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_yellow },{0.3f, cu.c_yellow },
-                                    {0.5f, cu.c_red },
-                                    {0.7f, cu.c_yellow },{1.0f, cu.c_yellow },
+                                    {0.0f, CataclysmUtility.c_yellow },{0.3f, CataclysmUtility.c_yellow },
+                                    {0.5f, CataclysmUtility.c_red },
+                                    {0.7f, CataclysmUtility.c_yellow },{1.0f, CataclysmUtility.c_yellow },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -270,9 +269,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_green },{0.3f, cu.c_green },
-                                    {0.5f, cu.c_blue },
-                                    {0.7f, cu.c_green },{1.0f, cu.c_green },
+                                    {0.0f, CataclysmUtility.c_green },{0.3f, CataclysmUtility.c_green },
+                                    {0.5f, CataclysmUtility.c_blue },
+                                    {0.7f, CataclysmUtility.c_green },{1.0f, CataclysmUtility.c_green },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -283,9 +282,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_green },{0.3f, cu.c_green },
-                                    {0.5f, cu.c_cyan },
-                                    {0.7f, cu.c_green },{1.0f, cu.c_green },
+                                    {0.0f, CataclysmUtility.c_green },{0.3f, CataclysmUtility.c_green },
+                                    {0.5f, CataclysmUtility.c_cyan },
+                                    {0.7f, CataclysmUtility.c_green },{1.0f, CataclysmUtility.c_green },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -296,9 +295,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_green },{0.3f, cu.c_green },
-                                    {0.5f, cu.c_lblue },
-                                    {0.7f, cu.c_green },{1.0f, cu.c_green },
+                                    {0.0f, CataclysmUtility.c_green },{0.3f, CataclysmUtility.c_green },
+                                    {0.5f, CataclysmUtility.c_lblue },
+                                    {0.7f, CataclysmUtility.c_green },{1.0f, CataclysmUtility.c_green },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -309,9 +308,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_green },{0.3f, cu.c_green },
-                                    {0.5f, cu.c_green },
-                                    {0.7f, cu.c_green },{1.0f, cu.c_green },
+                                    {0.0f, CataclysmUtility.c_green },{0.3f, CataclysmUtility.c_green },
+                                    {0.5f, CataclysmUtility.c_green },
+                                    {0.7f, CataclysmUtility.c_green },{1.0f, CataclysmUtility.c_green },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -321,9 +320,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_green },{0.3f, cu.c_green },
-                                    {0.5f, cu.c_yellow },
-                                    {0.7f, cu.c_green },{1.0f, cu.c_green },
+                                    {0.0f, CataclysmUtility.c_green },{0.3f, CataclysmUtility.c_green },
+                                    {0.5f, CataclysmUtility.c_yellow },
+                                    {0.7f, CataclysmUtility.c_green },{1.0f, CataclysmUtility.c_green },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -333,9 +332,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_green },{0.3f, cu.c_green },
-                                    {0.5f, cu.c_lred },
-                                    {0.7f, cu.c_green },{1.0f, cu.c_green },
+                                    {0.0f, CataclysmUtility.c_green },{0.3f, CataclysmUtility.c_green },
+                                    {0.5f, CataclysmUtility.c_lred },
+                                    {0.7f, CataclysmUtility.c_green },{1.0f, CataclysmUtility.c_green },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -345,9 +344,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_green },{0.3f, cu.c_green },
-                                    {0.5f, cu.c_red },
-                                    {0.7f, cu.c_green },{1.0f, cu.c_green },
+                                    {0.0f, CataclysmUtility.c_green },{0.3f, CataclysmUtility.c_green },
+                                    {0.5f, CataclysmUtility.c_red },
+                                    {0.7f, CataclysmUtility.c_green },{1.0f, CataclysmUtility.c_green },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -358,9 +357,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_lblue },{0.3f, cu.c_lblue },
-                                    {0.5f, cu.c_blue },
-                                    {0.7f, cu.c_lblue },{1.0f, cu.c_lblue },
+                                    {0.0f, CataclysmUtility.c_lblue },{0.3f, CataclysmUtility.c_lblue },
+                                    {0.5f, CataclysmUtility.c_blue },
+                                    {0.7f, CataclysmUtility.c_lblue },{1.0f, CataclysmUtility.c_lblue },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -371,9 +370,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_lblue },{0.3f, cu.c_lblue },
-                                    {0.5f, cu.c_cyan },
-                                    {0.7f, cu.c_lblue },{1.0f, cu.c_lblue },
+                                    {0.0f, CataclysmUtility.c_lblue },{0.3f, CataclysmUtility.c_lblue },
+                                    {0.5f, CataclysmUtility.c_cyan },
+                                    {0.7f, CataclysmUtility.c_lblue },{1.0f, CataclysmUtility.c_lblue },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -384,9 +383,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_lblue },{0.3f, cu.c_lblue },
-                                    {0.5f, cu.c_lblue },
-                                    {0.7f, cu.c_lblue },{1.0f, cu.c_lblue },
+                                    {0.0f, CataclysmUtility.c_lblue },{0.3f, CataclysmUtility.c_lblue },
+                                    {0.5f, CataclysmUtility.c_lblue },
+                                    {0.7f, CataclysmUtility.c_lblue },{1.0f, CataclysmUtility.c_lblue },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -396,9 +395,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_lblue },{0.3f, cu.c_lblue },
-                                    {0.5f, cu.c_green },
-                                    {0.7f, cu.c_lblue },{1.0f, cu.c_lblue },
+                                    {0.0f, CataclysmUtility.c_lblue },{0.3f, CataclysmUtility.c_lblue },
+                                    {0.5f, CataclysmUtility.c_green },
+                                    {0.7f, CataclysmUtility.c_lblue },{1.0f, CataclysmUtility.c_lblue },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -408,9 +407,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_lblue },{0.3f, cu.c_lblue },
-                                    {0.5f, cu.c_yellow },
-                                    {0.7f, cu.c_lblue },{1.0f, cu.c_lblue },
+                                    {0.0f, CataclysmUtility.c_lblue },{0.3f, CataclysmUtility.c_lblue },
+                                    {0.5f, CataclysmUtility.c_yellow },
+                                    {0.7f, CataclysmUtility.c_lblue },{1.0f, CataclysmUtility.c_lblue },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -420,9 +419,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_lblue },{0.3f, cu.c_lblue },
-                                    {0.5f, cu.c_lred },
-                                    {0.7f, cu.c_lblue },{1.0f, cu.c_lblue },
+                                    {0.0f, CataclysmUtility.c_lblue },{0.3f, CataclysmUtility.c_lblue },
+                                    {0.5f, CataclysmUtility.c_lred },
+                                    {0.7f, CataclysmUtility.c_lblue },{1.0f, CataclysmUtility.c_lblue },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -433,9 +432,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_cyan },{0.3f, cu.c_cyan },
-                                    {0.5f, cu.c_blue },
-                                    {0.7f, cu.c_cyan },{1.0f, cu.c_cyan },
+                                    {0.0f, CataclysmUtility.c_cyan },{0.3f, CataclysmUtility.c_cyan },
+                                    {0.5f, CataclysmUtility.c_blue },
+                                    {0.7f, CataclysmUtility.c_cyan },{1.0f, CataclysmUtility.c_cyan },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -446,9 +445,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_cyan },{0.3f, cu.c_cyan },
-                                    {0.5f, cu.c_cyan },
-                                    {0.7f, cu.c_cyan },{1.0f, cu.c_cyan },
+                                    {0.0f, CataclysmUtility.c_cyan },{0.3f, CataclysmUtility.c_cyan },
+                                    {0.5f, CataclysmUtility.c_cyan },
+                                    {0.7f, CataclysmUtility.c_cyan },{1.0f, CataclysmUtility.c_cyan },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -458,9 +457,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_cyan },{0.3f, cu.c_cyan },
-                                    {0.5f, cu.c_lblue },
-                                    {0.7f, cu.c_cyan },{1.0f, cu.c_cyan },
+                                    {0.0f, CataclysmUtility.c_cyan },{0.3f, CataclysmUtility.c_cyan },
+                                    {0.5f, CataclysmUtility.c_lblue },
+                                    {0.7f, CataclysmUtility.c_cyan },{1.0f, CataclysmUtility.c_cyan },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -470,9 +469,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_cyan },{0.3f, cu.c_cyan },
-                                    {0.5f, cu.c_green },
-                                    {0.7f, cu.c_cyan },{1.0f, cu.c_cyan },
+                                    {0.0f, CataclysmUtility.c_cyan },{0.3f, CataclysmUtility.c_cyan },
+                                    {0.5f, CataclysmUtility.c_green },
+                                    {0.7f, CataclysmUtility.c_cyan },{1.0f, CataclysmUtility.c_cyan },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -482,9 +481,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_cyan },{0.3f, cu.c_cyan },
-                                    {0.5f, cu.c_yellow },
-                                    {0.7f, cu.c_cyan },{1.0f, cu.c_cyan },
+                                    {0.0f, CataclysmUtility.c_cyan },{0.3f, CataclysmUtility.c_cyan },
+                                    {0.5f, CataclysmUtility.c_yellow },
+                                    {0.7f, CataclysmUtility.c_cyan },{1.0f, CataclysmUtility.c_cyan },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -495,9 +494,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_blue },{0.3f, cu.c_blue },
-                                    {0.5f, cu.c_blue },
-                                    {0.7f, cu.c_blue },{1.0f, cu.c_blue },
+                                    {0.0f, CataclysmUtility.c_blue },{0.3f, CataclysmUtility.c_blue },
+                                    {0.5f, CataclysmUtility.c_blue },
+                                    {0.7f, CataclysmUtility.c_blue },{1.0f, CataclysmUtility.c_blue },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -507,9 +506,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_blue },{0.3f, cu.c_blue },
-                                    {0.5f, cu.c_cyan },
-                                    {0.7f, cu.c_blue },{1.0f, cu.c_blue },
+                                    {0.0f, CataclysmUtility.c_blue },{0.3f, CataclysmUtility.c_blue },
+                                    {0.5f, CataclysmUtility.c_cyan },
+                                    {0.7f, CataclysmUtility.c_blue },{1.0f, CataclysmUtility.c_blue },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -519,9 +518,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_blue },{0.3f, cu.c_blue },
-                                    {0.5f, cu.c_lblue },
-                                    {0.7f, cu.c_blue },{1.0f, cu.c_blue },
+                                    {0.0f, CataclysmUtility.c_blue },{0.3f, CataclysmUtility.c_blue },
+                                    {0.5f, CataclysmUtility.c_lblue },
+                                    {0.7f, CataclysmUtility.c_blue },{1.0f, CataclysmUtility.c_blue },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -531,9 +530,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush() {
                                 type = EffectBrush.BrushType.Linear,
                                 colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, cu.c_blue },{0.3f, cu.c_blue },
-                                    {0.5f, cu.c_green },
-                                    {0.7f, cu.c_blue },{1.0f, cu.c_blue },
+                                    {0.0f, CataclysmUtility.c_blue },{0.3f, CataclysmUtility.c_blue },
+                                    {0.5f, CataclysmUtility.c_green },
+                                    {0.7f, CataclysmUtility.c_blue },{1.0f, CataclysmUtility.c_blue },
                                 },
                             },
                         }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
@@ -542,8 +541,8 @@ namespace Aurora.Profiles.Cataclysm_DDA
                 ),
                 new Layer("Safe Mode", new PercentLayerHandler(){
                     Properties = new PercentLayerHandlerProperties(){
-                        _PrimaryColor = cu.c_green,
-                        _SecondaryColor = cu.c_red,
+                        _PrimaryColor = CataclysmUtility.c_green,
+                        _SecondaryColor = CataclysmUtility.c_red,
                         _VariablePath = "Player/safe_mode",
                         _MaxVariablePath = "4",
                         _PercentType = PercentEffectType.Progressive,
@@ -551,51 +550,52 @@ namespace Aurora.Profiles.Cataclysm_DDA
                     }
                 }, new OverrideLogicBuilder()
                     .SetLookupTable("_PrimaryColor", new OverrideLookupTableBuilder<Color>()
-                        .AddEntry(cu.c_yellow, new BooleanGSINumeric("Player/safe_mode",ComparisonOperator.EQ,5)))),
+                        .AddEntry(CataclysmUtility.c_yellow, new BooleanGSINumeric("Player/safe_mode",ComparisonOperator.EQ,5)))),
                 new Layer("Hunger", new SolidColorLayerHandler()
                 {
                     Properties = new LayerHandlerProperties()
                     {
-                        _PrimaryColor = cu.c_black,
+                        _PrimaryColor = CataclysmUtility.c_black,
                         _Sequence = new KeySequence( new DeviceKeys[]{DeviceKeys.PRINT_SCREEN})
                     }
                 }, new OverrideLogicBuilder()
                     .SetLookupTable("_PrimaryColor", new OverrideLookupTableBuilder<Color>()
-                        .AddEntry(cu.c_green, new BooleanGSINumeric("Player/hunger",ComparisonOperator.GT,0))
-                        .AddEntry(cu.c_black, new BooleanGSINumeric("Player/hunger",ComparisonOperator.EQ,0))
-                        .AddEntry(cu.c_yellow, new BooleanGSINumeric("Player/hunger",ComparisonOperator.GTE,-2))
-                        .AddEntry(cu.c_lred, new BooleanGSINumeric("Player/hunger",ComparisonOperator.GTE,-4))
-                        .AddEntry(cu.c_red, new BooleanGSINumeric("Player/hunger",ComparisonOperator.EQ,-5)))),
+                        .AddEntry(CataclysmUtility.c_green, new BooleanGSINumeric("Player/hunger",ComparisonOperator.GT,0))
+                        .AddEntry(CataclysmUtility.c_black, new BooleanGSINumeric("Player/hunger",ComparisonOperator.EQ,0))
+                        .AddEntry(CataclysmUtility.c_yellow, new BooleanGSINumeric("Player/hunger",ComparisonOperator.GTE,-2))
+                        .AddEntry(CataclysmUtility.c_lred, new BooleanGSINumeric("Player/hunger",ComparisonOperator.GTE,-4))
+                        .AddEntry(CataclysmUtility.c_red, new BooleanGSINumeric("Player/hunger",ComparisonOperator.EQ,-5)))),
                 new Layer("Thirst", new SolidColorLayerHandler()
                 {
                     Properties = new LayerHandlerProperties()
                     {
-                        _PrimaryColor = cu.c_black,
+                        _PrimaryColor = CataclysmUtility.c_black,
                         _Sequence = new KeySequence( new DeviceKeys[]{DeviceKeys.SCROLL_LOCK})
                     }
                 }, new OverrideLogicBuilder()
                     .SetLookupTable("_PrimaryColor", new OverrideLookupTableBuilder<Color>()
-                        .AddEntry(cu.c_green, new BooleanGSINumeric("Player/thirst",ComparisonOperator.GT,0))
-                        .AddEntry(cu.c_black, new BooleanGSINumeric("Player/thirst",ComparisonOperator.EQ,0))
-                        .AddEntry(cu.c_yellow, new BooleanGSINumeric("Player/thirst",ComparisonOperator.GTE,-2))
-                        .AddEntry(cu.c_lred, new BooleanGSINumeric("Player/thirst",ComparisonOperator.GTE,-4)))),
+                        .AddEntry(CataclysmUtility.c_green, new BooleanGSINumeric("Player/thirst",ComparisonOperator.GT,0))
+                        .AddEntry(CataclysmUtility.c_black, new BooleanGSINumeric("Player/thirst",ComparisonOperator.EQ,0))
+                        .AddEntry(CataclysmUtility.c_yellow, new BooleanGSINumeric("Player/thirst",ComparisonOperator.GTE,-2))
+                        .AddEntry(CataclysmUtility.c_lred, new BooleanGSINumeric("Player/thirst",ComparisonOperator.GTE,-4)))),
                 new Layer("Fatigue", new SolidColorLayerHandler()
                 {
                     Properties = new LayerHandlerProperties()
                     {
-                        _PrimaryColor = cu.c_black,
+                        _PrimaryColor = CataclysmUtility.c_black,
                         _Sequence = new KeySequence( new DeviceKeys[]{DeviceKeys.PAUSE_BREAK})
                     }
                 }, new OverrideLogicBuilder()
                     .SetLookupTable("_PrimaryColor", new OverrideLookupTableBuilder<Color>()
-                        .AddEntry(cu.c_black, new BooleanGSINumeric("Player/fatigue",ComparisonOperator.EQ,0))
-                        .AddEntry(cu.c_yellow, new BooleanGSINumeric("Player/fatigue",ComparisonOperator.EQ,-1))
-                        .AddEntry(cu.c_lred, new BooleanGSINumeric("Player/fatigue",ComparisonOperator.EQ,-2))
-                        .AddEntry(cu.c_red, new BooleanGSINumeric("Player/fatigue",ComparisonOperator.EQ,-3)))),
+                        .AddEntry(CataclysmUtility.c_black, new BooleanGSINumeric("Player/fatigue",ComparisonOperator.EQ,0))
+                        .AddEntry(CataclysmUtility.c_yellow, new BooleanGSINumeric("Player/fatigue",ComparisonOperator.EQ,-1))
+                        .AddEntry(CataclysmUtility.c_lred, new BooleanGSINumeric("Player/fatigue",ComparisonOperator.EQ,-2))
+                        .AddEntry(CataclysmUtility.c_red, new BooleanGSINumeric("Player/fatigue",ComparisonOperator.EQ,-3)))),
 
 
 
                 new Layer("Keybinds", new Layers.CataclysmKeybindLayerHandler()),
+                new Layer("Inventory", new Layers.CataclysmInventoryLayerHandler()),
             };
         }
     }

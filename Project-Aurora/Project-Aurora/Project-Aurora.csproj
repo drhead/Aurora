@@ -435,6 +435,7 @@
     <Compile Include="Profiles\Cataclysm DDA\GSI\Nodes\ColorNode.cs" />
     <Compile Include="Profiles\Cataclysm DDA\GSI\Nodes\KeyContextNode.cs" />
     <Compile Include="Profiles\Cataclysm DDA\GSI\Nodes\ProviderNode.cs" />
+    <Compile Include="Profiles\Cataclysm DDA\Layers\CataclysmInventoryLayerHandler.cs" />
     <Compile Include="Profiles\CloneHero\Control_CloneHero.xaml.cs">
       <DependentUpon>Control_CloneHero.xaml</DependentUpon>
     </Compile>

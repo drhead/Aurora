@@ -27,6 +27,7 @@ namespace Aurora.Profiles.Cataclysm_DDA
             var extra = new List<LayerHandlerEntry>
             {
                 new LayerHandlerEntry("CataclysmKeybind", "Cataclysm Keybind Layer", typeof(CataclysmKeybindLayerHandler)),
+                new LayerHandlerEntry("CataclysmInventory", "Cataclysm Inventory Layer", typeof(CataclysmInventoryLayerHandler)),
             };
 
             Global.LightingStateManager.RegisterLayerHandlers(extra, false);
