@@ -9,9 +9,9 @@ namespace Aurora.Profiles.Cataclysm_DDA.GSI.Nodes
     public class PlayerNode : Node<PlayerNode>
     {
         public bool selfAware;
-        public int hunger;
-        public int thirst;
-        public int fatigue;
+        public string hunger;
+        public string thirst;
+        public string fatigue;
         public int temp_level;
         public int temp_change;
         //public int[] hp_cur = new int[6];
@@ -42,9 +42,9 @@ namespace Aurora.Profiles.Cataclysm_DDA.GSI.Nodes
             try
             {
                 selfAware = GetBool("is_self_aware");
-                hunger = GetInt("hunger");
-                thirst = GetInt("thirst");
-                fatigue = GetInt("fatigue");
+                hunger = GetString("hunger");
+                thirst = GetString("thirst");
+                fatigue = GetString("fatigue");
                 temp_level = GetInt("temp_level");
                 temp_change = GetInt("temp_change");
                 stamina = GetInt("stamina");

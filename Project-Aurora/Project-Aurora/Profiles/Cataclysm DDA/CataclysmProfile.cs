@@ -11,33 +11,54 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using StringComparison = Aurora.Settings.Overrides.Logic.StringComparison;
 
 namespace Aurora.Profiles.Cataclysm_DDA
 {
-    public class CataclysmProfileConds
-    {
-        public BooleanGSINumeric tv_cold1 = new BooleanGSINumeric("Player/temp_level", -1);
-        public BooleanGSINumeric tv_cold2 = new BooleanGSINumeric("Player/temp_level", -2);
-        public BooleanGSINumeric tv_cold3 = new BooleanGSINumeric("Player/temp_level", -3);
-        public BooleanGSINumeric tv_neutral = new BooleanGSINumeric("Player/temp_level", 0);
-        public BooleanGSINumeric tv_hot1 = new BooleanGSINumeric("Player/temp_level", 1);
-        public BooleanGSINumeric tv_hot2 = new BooleanGSINumeric("Player/temp_level", 2);
-        public BooleanGSINumeric tv_hot3 = new BooleanGSINumeric("Player/temp_level", 3);
-        public BooleanGSINumeric td_none = new BooleanGSINumeric("Player/temp_change", 0);
-        public BooleanGSINumeric td_up1 = new BooleanGSINumeric("Player/temp_change", 1);
-        public BooleanGSINumeric td_up2 = new BooleanGSINumeric("Player/temp_change", 2);
-        public BooleanGSINumeric td_up3 = new BooleanGSINumeric("Player/temp_change", 3);
-        public BooleanGSINumeric td_down1 = new BooleanGSINumeric("Player/temp_change", -1);
-        public BooleanGSINumeric td_down2 = new BooleanGSINumeric("Player/temp_change", -2);
-        public BooleanGSINumeric td_down3 = new BooleanGSINumeric("Player/temp_change", -3);
-    }
-
     public class CataclysmProfile : ApplicationProfile
     {
-        CataclysmProfileConds cc = new CataclysmProfileConds();
         public CataclysmProfile() : base()
         {
             
+        }
+
+        IEvaluatableBoolean HungerState(string state)
+        {
+            return new StringComparison() { Operand1 = new StringGSIString { VariablePath = "Player/hunger" }, Operand2 = new StringConstant { Value = state }, Operator = StringComparisonOperator.Equal };
+        }
+        IEvaluatableBoolean ThirstState(string state)
+        {
+            return new StringComparison() { Operand1 = new StringGSIString { VariablePath = "Player/thirst" }, Operand2 = new StringConstant { Value = state }, Operator = StringComparisonOperator.Equal };
+        }
+        IEvaluatableBoolean FatigueState(string state)
+        {
+            return new StringComparison() { Operand1 = new StringGSIString { VariablePath = "Player/fatigue" }, Operand2 = new StringConstant { Value = state }, Operator = StringComparisonOperator.Equal };
+        }
+        OverrideLookupTableBuilder<LayerEffectConfig> TemperatureState()
+        {
+            var table = new OverrideLookupTableBuilder<LayerEffectConfig>();
+            var colors = new Color[] { CataclysmUtility.c_blue, CataclysmUtility.c_cyan, CataclysmUtility.c_lblue, CataclysmUtility.c_green, CataclysmUtility.c_yellow, CataclysmUtility.c_lred, CataclysmUtility.c_red };
+
+
+            for (int t = 3; t >= -3; t--)
+                for (int d = -3; d <= 3; d++)
+                    if(t+d <= 3 && t+d >= -3)
+                        table.AddEntry(new LayerEffectConfig()
+                        {
+                            speed = (float)Math.Pow(2,Math.Abs(d)),
+                            animation_reverse = d<0,
+                            brush = new EffectBrush()
+                            {
+                                type = EffectBrush.BrushType.Linear,
+                                colorGradients = new SortedDictionary<float, Color> {
+                                    {0.0f, colors[t+3] },{0.3f, colors[t+3] },
+                                    {0.5f, colors[t+d+3] },
+                                    {0.7f, colors[t+3] },{1.0f, colors[t+3] },
+                                },
+                            },
+                        }, new BooleanAnd(subconditions: new ObservableCollection<IEvaluatableBoolean>()
+                        { new BooleanGSINumeric("Player/temp_level", t), new BooleanGSINumeric("Player/temp_change", d) }));
+            return table;
         }
 
         public override void Reset()
@@ -55,490 +76,17 @@ namespace Aurora.Profiles.Cataclysm_DDA
                             brush = new EffectBrush()
                             {
                                 type = EffectBrush.BrushType.Linear,
-
                                 colorGradients = new SortedDictionary<float, Color>
                                 {
                                     {0, Color.FromArgb(0,0,0,0) },
                                     {1, Color.FromArgb(0,0,0,0) }
                                 }
-
-
                             },
                         },
                         _Sequence = new KeySequence( new DeviceKeys[]{DeviceKeys.F5, DeviceKeys.F6, DeviceKeys.F7, DeviceKeys.F8 }),
                     }
-                },
-                #region Temperature Layer Overrides
-                new OverrideLogicBuilder()
-                    .SetLookupTable("_GradientConfig", new OverrideLookupTableBuilder<LayerEffectConfig>()
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 8,
-                            animation_reverse = true,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_red },{0.3f, CataclysmUtility.c_red },
-                                    {0.5f, CataclysmUtility.c_green },
-                                    {0.7f, CataclysmUtility.c_red },{1.0f, CataclysmUtility.c_red },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_hot3, cc.td_down3 }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 4,
-                            animation_reverse = true,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_red },{0.3f, CataclysmUtility.c_red },
-                                    {0.5f, CataclysmUtility.c_yellow },
-                                    {0.7f, CataclysmUtility.c_red },{1.0f, CataclysmUtility.c_red },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_hot3, cc.td_down2 }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 2,
-                            animation_reverse = true,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_red },{0.3f, CataclysmUtility.c_red },
-                                    {0.5f, CataclysmUtility.c_lred },
-                                    {0.7f, CataclysmUtility.c_red },{1.0f, CataclysmUtility.c_red },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_hot3, cc.td_down1 }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 0,
-                            animation_reverse = true,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_red },{0.3f, CataclysmUtility.c_red },
-                                    {0.5f, CataclysmUtility.c_red },
-                                    {0.7f, CataclysmUtility.c_red },{1.0f, CataclysmUtility.c_red },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_hot3, cc.td_none }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 8,
-                            animation_reverse = true,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_lred },{0.3f, CataclysmUtility.c_lred },
-                                    {0.5f, CataclysmUtility.c_lblue },
-                                    {0.7f, CataclysmUtility.c_lred },{1.0f, CataclysmUtility.c_lred },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_hot2, cc.td_down3 }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 4,
-                            animation_reverse = true,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_lred },{0.3f, CataclysmUtility.c_lred },
-                                    {0.5f, CataclysmUtility.c_green },
-                                    {0.7f, CataclysmUtility.c_lred },{1.0f, CataclysmUtility.c_lred },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_hot2, cc.td_down2 }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 2,
-                            animation_reverse = true,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_lred },{0.3f, CataclysmUtility.c_lred },
-                                    {0.5f, CataclysmUtility.c_yellow },
-                                    {0.7f, CataclysmUtility.c_lred },{1.0f, CataclysmUtility.c_lred },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_hot2, cc.td_down1 }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 0,
-                            animation_reverse = true,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_lred },{0.3f, CataclysmUtility.c_lred },
-                                    {0.5f, CataclysmUtility.c_lred },
-                                    {0.7f, CataclysmUtility.c_lred },{1.0f, CataclysmUtility.c_lred },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_hot2, cc.td_none }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 2,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_lred },{0.3f, CataclysmUtility.c_lred },
-                                    {0.5f, CataclysmUtility.c_red },
-                                    {0.7f, CataclysmUtility.c_lred },{1.0f, CataclysmUtility.c_lred },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_hot2, cc.td_up1 }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 8,
-                            animation_reverse = true,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_yellow },{0.3f, CataclysmUtility.c_yellow },
-                                    {0.5f, CataclysmUtility.c_cyan },
-                                    {0.7f, CataclysmUtility.c_yellow },{1.0f, CataclysmUtility.c_yellow },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_hot1, cc.td_down3 }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 4,
-                            animation_reverse = true,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_yellow },{0.3f, CataclysmUtility.c_yellow },
-                                    {0.5f, CataclysmUtility.c_cyan },
-                                    {0.7f, CataclysmUtility.c_yellow },{1.0f, CataclysmUtility.c_yellow },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_hot1, cc.td_down2 }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 2,
-                            animation_reverse = true,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_yellow },{0.3f, CataclysmUtility.c_yellow },
-                                    {0.5f, CataclysmUtility.c_lblue },
-                                    {0.7f, CataclysmUtility.c_yellow },{1.0f, CataclysmUtility.c_yellow },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_hot1, cc.td_down1 }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 0,
-                            animation_reverse = true,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_yellow },{0.3f, CataclysmUtility.c_yellow },
-                                    {0.5f, CataclysmUtility.c_yellow },
-                                    {0.7f, CataclysmUtility.c_yellow },{1.0f, CataclysmUtility.c_yellow },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_hot1, cc.td_none }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 2,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_yellow },{0.3f, CataclysmUtility.c_yellow },
-                                    {0.5f, CataclysmUtility.c_lred },
-                                    {0.7f, CataclysmUtility.c_yellow },{1.0f, CataclysmUtility.c_yellow },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_hot1, cc.td_up1 }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 4,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_yellow },{0.3f, CataclysmUtility.c_yellow },
-                                    {0.5f, CataclysmUtility.c_red },
-                                    {0.7f, CataclysmUtility.c_yellow },{1.0f, CataclysmUtility.c_yellow },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_hot1, cc.td_up2 }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 8,
-                            animation_reverse = true,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_green },{0.3f, CataclysmUtility.c_green },
-                                    {0.5f, CataclysmUtility.c_blue },
-                                    {0.7f, CataclysmUtility.c_green },{1.0f, CataclysmUtility.c_green },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_neutral, cc.td_down3 }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 4,
-                            animation_reverse = true,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_green },{0.3f, CataclysmUtility.c_green },
-                                    {0.5f, CataclysmUtility.c_cyan },
-                                    {0.7f, CataclysmUtility.c_green },{1.0f, CataclysmUtility.c_green },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_neutral, cc.td_down2 }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 2,
-                            animation_reverse = true,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_green },{0.3f, CataclysmUtility.c_green },
-                                    {0.5f, CataclysmUtility.c_lblue },
-                                    {0.7f, CataclysmUtility.c_green },{1.0f, CataclysmUtility.c_green },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_neutral, cc.td_down1 }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 0,
-                            animation_reverse = true,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_green },{0.3f, CataclysmUtility.c_green },
-                                    {0.5f, CataclysmUtility.c_green },
-                                    {0.7f, CataclysmUtility.c_green },{1.0f, CataclysmUtility.c_green },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_neutral, cc.td_none }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 2,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_green },{0.3f, CataclysmUtility.c_green },
-                                    {0.5f, CataclysmUtility.c_yellow },
-                                    {0.7f, CataclysmUtility.c_green },{1.0f, CataclysmUtility.c_green },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_neutral, cc.td_up1 }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 4,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_green },{0.3f, CataclysmUtility.c_green },
-                                    {0.5f, CataclysmUtility.c_lred },
-                                    {0.7f, CataclysmUtility.c_green },{1.0f, CataclysmUtility.c_green },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_neutral, cc.td_up2 }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 8,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_green },{0.3f, CataclysmUtility.c_green },
-                                    {0.5f, CataclysmUtility.c_red },
-                                    {0.7f, CataclysmUtility.c_green },{1.0f, CataclysmUtility.c_green },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_neutral, cc.td_up3 }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 4,
-                            animation_reverse = true,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_lblue },{0.3f, CataclysmUtility.c_lblue },
-                                    {0.5f, CataclysmUtility.c_blue },
-                                    {0.7f, CataclysmUtility.c_lblue },{1.0f, CataclysmUtility.c_lblue },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_cold1, cc.td_down2 }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 2,
-                            animation_reverse = true,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_lblue },{0.3f, CataclysmUtility.c_lblue },
-                                    {0.5f, CataclysmUtility.c_cyan },
-                                    {0.7f, CataclysmUtility.c_lblue },{1.0f, CataclysmUtility.c_lblue },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_cold1, cc.td_down1 }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 0,
-                            animation_reverse = true,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_lblue },{0.3f, CataclysmUtility.c_lblue },
-                                    {0.5f, CataclysmUtility.c_lblue },
-                                    {0.7f, CataclysmUtility.c_lblue },{1.0f, CataclysmUtility.c_lblue },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_cold1, cc.td_none }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 2,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_lblue },{0.3f, CataclysmUtility.c_lblue },
-                                    {0.5f, CataclysmUtility.c_green },
-                                    {0.7f, CataclysmUtility.c_lblue },{1.0f, CataclysmUtility.c_lblue },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_cold1, cc.td_up1 }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 4,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_lblue },{0.3f, CataclysmUtility.c_lblue },
-                                    {0.5f, CataclysmUtility.c_yellow },
-                                    {0.7f, CataclysmUtility.c_lblue },{1.0f, CataclysmUtility.c_lblue },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_cold1, cc.td_up2 }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 8,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_lblue },{0.3f, CataclysmUtility.c_lblue },
-                                    {0.5f, CataclysmUtility.c_lred },
-                                    {0.7f, CataclysmUtility.c_lblue },{1.0f, CataclysmUtility.c_lblue },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_cold1, cc.td_up3 }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 2,
-                            animation_reverse = true,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_cyan },{0.3f, CataclysmUtility.c_cyan },
-                                    {0.5f, CataclysmUtility.c_blue },
-                                    {0.7f, CataclysmUtility.c_cyan },{1.0f, CataclysmUtility.c_cyan },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_cold2, cc.td_down1 }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 0,
-                            animation_reverse = true,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_cyan },{0.3f, CataclysmUtility.c_cyan },
-                                    {0.5f, CataclysmUtility.c_cyan },
-                                    {0.7f, CataclysmUtility.c_cyan },{1.0f, CataclysmUtility.c_cyan },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_cold2, cc.td_none }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 2,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_cyan },{0.3f, CataclysmUtility.c_cyan },
-                                    {0.5f, CataclysmUtility.c_lblue },
-                                    {0.7f, CataclysmUtility.c_cyan },{1.0f, CataclysmUtility.c_cyan },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_cold2, cc.td_up1 }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 4,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_cyan },{0.3f, CataclysmUtility.c_cyan },
-                                    {0.5f, CataclysmUtility.c_green },
-                                    {0.7f, CataclysmUtility.c_cyan },{1.0f, CataclysmUtility.c_cyan },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_cold2, cc.td_up2 }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 8,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_cyan },{0.3f, CataclysmUtility.c_cyan },
-                                    {0.5f, CataclysmUtility.c_yellow },
-                                    {0.7f, CataclysmUtility.c_cyan },{1.0f, CataclysmUtility.c_cyan },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_cold2, cc.td_up3 }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 0,
-                            animation_reverse = true,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_blue },{0.3f, CataclysmUtility.c_blue },
-                                    {0.5f, CataclysmUtility.c_blue },
-                                    {0.7f, CataclysmUtility.c_blue },{1.0f, CataclysmUtility.c_blue },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_cold3, cc.td_none }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 2,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_blue },{0.3f, CataclysmUtility.c_blue },
-                                    {0.5f, CataclysmUtility.c_cyan },
-                                    {0.7f, CataclysmUtility.c_blue },{1.0f, CataclysmUtility.c_blue },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_cold3, cc.td_up1 }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 4,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_blue },{0.3f, CataclysmUtility.c_blue },
-                                    {0.5f, CataclysmUtility.c_lblue },
-                                    {0.7f, CataclysmUtility.c_blue },{1.0f, CataclysmUtility.c_blue },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_cold3, cc.td_up2 }))
-                        .AddEntry(new LayerEffectConfig() {
-                            speed = 8,
-                            brush = new EffectBrush() {
-                                type = EffectBrush.BrushType.Linear,
-                                colorGradients = new SortedDictionary<float, Color> {
-                                    {0.0f, CataclysmUtility.c_blue },{0.3f, CataclysmUtility.c_blue },
-                                    {0.5f, CataclysmUtility.c_green },
-                                    {0.7f, CataclysmUtility.c_blue },{1.0f, CataclysmUtility.c_blue },
-                                },
-                            },
-                        }, new BooleanAnd(subconditions:new ObservableCollection<IEvaluatableBoolean>()
-                        { cc.tv_cold3, cc.td_up3 })))
-#endregion
-                ),
+                }, new OverrideLogicBuilder()
+                    .SetLookupTable("_GradientConfig", TemperatureState())),
                 new Layer("Safe Mode", new PercentLayerHandler(){
                     Properties = new PercentLayerHandlerProperties(){
                         _PrimaryColor = CataclysmUtility.c_green,
@@ -560,11 +108,15 @@ namespace Aurora.Profiles.Cataclysm_DDA
                     }
                 }, new OverrideLogicBuilder()
                     .SetLookupTable("_PrimaryColor", new OverrideLookupTableBuilder<Color>()
-                        .AddEntry(CataclysmUtility.c_green, new BooleanGSINumeric("Player/hunger",ComparisonOperator.GT,0))
-                        .AddEntry(CataclysmUtility.c_black, new BooleanGSINumeric("Player/hunger",ComparisonOperator.EQ,0))
-                        .AddEntry(CataclysmUtility.c_yellow, new BooleanGSINumeric("Player/hunger",ComparisonOperator.GTE,-2))
-                        .AddEntry(CataclysmUtility.c_lred, new BooleanGSINumeric("Player/hunger",ComparisonOperator.GTE,-4))
-                        .AddEntry(CataclysmUtility.c_red, new BooleanGSINumeric("Player/hunger",ComparisonOperator.EQ,-5)))),
+                        .AddEntry(CataclysmUtility.c_green, HungerState("Engorged"))
+                        .AddEntry(CataclysmUtility.c_green, HungerState("Sated"))
+                        .AddEntry(CataclysmUtility.c_green, HungerState("Full"))
+                        .AddEntry(CataclysmUtility.c_dgray, HungerState("Peckish"))
+                        .AddEntry(CataclysmUtility.c_yellow, HungerState("Hungry"))
+                        .AddEntry(CataclysmUtility.c_yellow, HungerState("Very Hungry"))
+                        .AddEntry(CataclysmUtility.c_lred, HungerState("Famished"))
+                        .AddEntry(CataclysmUtility.c_lred, HungerState("Near Starving"))
+                        .AddEntry(CataclysmUtility.c_red, HungerState("Starving!")))),
                 new Layer("Thirst", new SolidColorLayerHandler()
                 {
                     Properties = new LayerHandlerProperties()
@@ -574,10 +126,13 @@ namespace Aurora.Profiles.Cataclysm_DDA
                     }
                 }, new OverrideLogicBuilder()
                     .SetLookupTable("_PrimaryColor", new OverrideLookupTableBuilder<Color>()
-                        .AddEntry(CataclysmUtility.c_green, new BooleanGSINumeric("Player/thirst",ComparisonOperator.GT,0))
-                        .AddEntry(CataclysmUtility.c_black, new BooleanGSINumeric("Player/thirst",ComparisonOperator.EQ,0))
-                        .AddEntry(CataclysmUtility.c_yellow, new BooleanGSINumeric("Player/thirst",ComparisonOperator.GTE,-2))
-                        .AddEntry(CataclysmUtility.c_lred, new BooleanGSINumeric("Player/thirst",ComparisonOperator.GTE,-4)))),
+                        .AddEntry(CataclysmUtility.c_green, ThirstState("Turgid"))
+                        .AddEntry(CataclysmUtility.c_green, ThirstState("Hydrated"))
+                        .AddEntry(CataclysmUtility.c_green, ThirstState("Slaked"))
+                        .AddEntry(CataclysmUtility.c_yellow, ThirstState("Thirsty"))
+                        .AddEntry(CataclysmUtility.c_yellow, ThirstState("Very Thirsty"))
+                        .AddEntry(CataclysmUtility.c_lred, ThirstState("Dehydrated"))
+                        .AddEntry(CataclysmUtility.c_lred, ThirstState("Parched")))),
                 new Layer("Fatigue", new SolidColorLayerHandler()
                 {
                     Properties = new LayerHandlerProperties()
@@ -587,13 +142,9 @@ namespace Aurora.Profiles.Cataclysm_DDA
                     }
                 }, new OverrideLogicBuilder()
                     .SetLookupTable("_PrimaryColor", new OverrideLookupTableBuilder<Color>()
-                        .AddEntry(CataclysmUtility.c_black, new BooleanGSINumeric("Player/fatigue",ComparisonOperator.EQ,0))
-                        .AddEntry(CataclysmUtility.c_yellow, new BooleanGSINumeric("Player/fatigue",ComparisonOperator.EQ,-1))
-                        .AddEntry(CataclysmUtility.c_lred, new BooleanGSINumeric("Player/fatigue",ComparisonOperator.EQ,-2))
-                        .AddEntry(CataclysmUtility.c_red, new BooleanGSINumeric("Player/fatigue",ComparisonOperator.EQ,-3)))),
-
-
-
+                        .AddEntry(CataclysmUtility.c_yellow, FatigueState("Tired"))
+                        .AddEntry(CataclysmUtility.c_lred, FatigueState("Dead Tired"))
+                        .AddEntry(CataclysmUtility.c_red, FatigueState("Exhausted")))),
                 new Layer("Keybinds", new Layers.CataclysmKeybindLayerHandler()),
                 new Layer("Inventory", new Layers.CataclysmInventoryLayerHandler()),
             };
